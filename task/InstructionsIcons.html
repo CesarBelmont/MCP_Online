@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function backMainTask() {
+            sessionStorage.setItem("Stage", 0);
+            window.location.href = "../MainTask.html";
+        }
+    </script>
+
+</head>
+<body>
+
+    <h2 style="font-family:arial;">Instructions</h2>
+    <p style="font-family:arial;font-weight:bold;color:blue;">Please read these instructions carefully before you begin the experiment.</p>
+
+    <p style="line-height:23px;font-family:arial;">
+        We are interested in how people make decisions under limited information and time.
+        In this experiment, you will be asked to compare two stimuli and select the one that is more likely to win in a given trial.
+    </p>
+
+    <h3 style="font-family:arial;">Task</h3>
+    <p style="line-height:23px;font-family:arial;">
+        On each trial, you will be presented with two stimuli that contain icons from four different categories.
+        Each category has a designated location, e.g. weather (sunny/rainy) in location 1, transportation (subway/taxi) in location 2, activity (running/swimming) in location 3 and building (house/apartment) in location 4.
+        We refer to each of these distinct categories as <b>cues</b>:
+    </p>
+    <center><img src="instructions_cues.png"></center>
+    <p style="line-height:23px;font-family:arial;">
+        These cues are assigned with fixed winning probabilities, which can be used to predict a stimulus with a higher chance of winning.
+        Thus, your goals are <b>(1) to learn about the properties of each cue by trial-and-error</b> and <b>(2) to win as many trials as possible</b>.
+        To expedite the learning process, it is critical that you make a valid response and get feedback on each trial even if you are not sure about the right answer.
+        Every time you win a trial, you will receive 1 point and a running tally of your score will be shown on the screen throughout the experiment.
+    </p>
+
+    <h3 style="font-family:arial;">Experimental Set-Up</h3>
+    <table style="line-height:23px;font-family:arial;">
+        <tr>
+            <td rowspan="2"><img src="instructions_keyboard.png"></td>
+            <td width="20"></td>
+            <td>
+                This is an image of what the screen will look like during the experiment. As previously mentioned, there will be two distinct stimuli, each with some combination of the four cues.
+                Using your knowledge about the cues, you will select a stimulus with higher winning probability.</br></br>
+                For example, consider the following case:</br></br>
+                After trying out 50 trials, let's assume that you have a pretty good idea about these cues.
+                If you've learned that sunny has a better chance of winning than rainy, and taxi has a better chance of winning than subway, then you will be more likely to win this trial by selecting the left stimulus.
+                However, let's assume that you've also learned that apartment is better than house.
+                In this case, you will need to rank these cues from most important to least important, which will help you to determine whether to change your decision or not.
+                (These examples, of course, are not necessarily true. Probabilities are assigned randomly at the beginning of the experiment for each participant.)</br>
+            </td>
+        </tr>
+        <tr>
+            <td width="20"></td>
+            <td>
+                </br><p style="line-height:23px;font-family:arial;"><b>Keys</b></p>
+                You will indicate your decision by pressing a button:</br></br>
+                <b>
+                    z = left stimulus (left index finger)</br>
+                    <b>m = right stimulus (right index finger)</b></br></br>
+        <tr></tr>
+    </table>
+
+    <p style="line-height:23px;font-family:arial;">
+        <b>Please note that feedback is probabilistic, which means that you won't always get the same feedback even if you make the same decisions across trials.</b>
+        For example, if a stimulus' overall winning percentage is 70%, it means that this stimulus will win 7 times out of 10 trials.
+        Please keep in mind that since your goal is to maximize the number of wins, regardless of feedback, it is always beneficial to choose a stimulus with a higher chance of winning.
+    </p>
+
+    <p style="line-height:23px;font-family:arial;">
+        <b>The experiment is divided into 2 phases:</b>
+        <ul style="line-height:23px;font-family:arial;">
+            <b><li>Phase I: Slow phase</li></b>
+            The slow phase serves as the learning phase, where you will have an opportunity to learn about the probability of winning for each set of cues.
+            The slow phase includes
+            <b>8 blocks</b> and you will have a maximum of
+            <b><span style="color:red">3 seconds</span></b> to respond (max 5 min/block).
+            <b><li>Phase II: Fast phase</li></b>
+            The fast phase includes
+            <b>4 blocks</b> and you will be given a maximum of
+            <b><span style="color:red">0.75 seconds</span></b> to respond (max 3 min/block).
+            <b>There will be no change in winning probabilities from the first phase to the second phase.</b>
+            Thus, based on what you've learned in the slow phase, you will be tested with how accurate you can make decisions within a short period of time.
+            Before the second phase begins, you will complete a short practice block to help you adjust to the new maximum response time.
+        </ul>
+
+    <p style="line-height:23px;font-family:arial;">Overall, please respond as quickly and as accurately as possible once you've reached a decision. You may take a short break between blocks. However, please do not do anything else while doing this task. It is very important to stay focused during the experiment. </p>
+
+    &nbsp;
+    <h3 style="font-family:arial;">HIT Approval Criteria</h3>
+    <p style="line-height:23px;font-family:arial;">
+        Your HIT will be approved if you satisfy following criteria, which are reasonable thresholds based on our previous studies.</br>
+        <ol style="line-height:23px;font-family:arial;">
+            <b><li>Jobs that took less than 2 hours</li></b>
+            <b><li>Total score exceeds 430 points</li></b>As a reminder, you will receive 1 point every time you win a trial and there will be a running tally of your score on the screen. In order for your HIT to be approved, you must reach a minimum total score of 430 points by the end of the experiment.
+            <b>Tip</b>: Summary of your performance will be given at the end of each block. Maintaining
+            <span style="color:red">above 60% winning percentage</span> will help you meet this score threshold.
+            <b><li>Less than 20 invalid responses</li></b> A response is only considered valid if it is made within the given response window (not before or after) and if the correct key was pressed ("z" or "m" only). You will be notified if your response was invalid (i.e. too slow!, too fast!, Wrong button!).
+            <b><li>Valid verification code</li></b> You will receive a verification code at the end of the HIT and you
+            <b>must</b> submit it in order for your HIT to be approved. Instructions on how to do this will be outlined at the end of the experiment.
+        </ol>
+
+        <h3 style="font-family:arial;color:blue">Bonus payment</h3>
+        <ul style="font-size:18px;line-height:23px;font-family:arial;">
+            <li>$5.00 bonus if your total score is greater than 570 points.</li>
+            <li>$3.00 bonus if your total score is greater than 550 but less than or equal to 570 points.</li>
+            <li>$2.50 bonus if your total score is greater than 530 but less than or equal to 550 points.</li>
+            <li>$2.00 bonus if your total score is greater than 510 but less than or equal to 530 points.</li>
+            <li>$1.50 bonus if your total score is greater than 490 but less than or equal to 510 points.</li>
+            <li>$1.00 bonus if your total score is greater than 470 but less than or equal to 490 points.</li>
+            <li>$0.50 bonus if your total score is greater than 450 but less than or equal to 470 points.</li>
+        </ul>
+
+        &nbsp;
+    <p></p>
+    <button id="ReturnButton" style="font-family:arial;color:black;font-size:20px;" onclick="backMainTask()">Click to return</button>
+
+</body>
+</html>

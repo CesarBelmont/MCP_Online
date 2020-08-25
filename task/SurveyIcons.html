@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html><head>
+<script type="text/javascript" src="jquery-1.7.1.js">
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	nC = 2; nP = 6; nD = 14; 
+	data = [['']];
+    $("#returnButton").click(function(){
+		
+		var r1 = document.getElementById("rank1");
+    	data[0] = r1.options[r1.selectedIndex].value;
+		var r2 = document.getElementById("rank2");
+    	data[1] = r2.options[r2.selectedIndex].value;
+		var r3 = document.getElementById("rank3");
+    	data[2] = r3.options[r3.selectedIndex].value;
+		var r4 = document.getElementById("rank4");
+    	data[3] = r4.options[r4.selectedIndex].value;
+		
+		var c1 = document.getElementById("nCue1");
+		data[4] = c1.options[c1.selectedIndex].value;
+		var c2 = document.getElementById("nCue2");
+		data[5] = c2.options[c2.selectedIndex].value;
+		
+		var w = document.getElementsByName("weather");
+		var t = document.getElementsByName("transportation");		
+		var a = document.getElementsByName("activity");
+		var b = document.getElementsByName("building");		
+		for (var i = 0; i < nC; i++) {
+			if (w[i].checked == true) {data[6] = w[i].value;}
+			if (t[i].checked == true) {data[7] = t[i].value;}
+			if (a[i].checked == true) {data[8] = a[i].value;}
+			if (b[i].checked == true) {data[9] = b[i].value;}
+		}
+		
+		var wP = document.getElementsByName("weatherP");
+		var tP = document.getElementsByName("transportationP");
+		var aP = document.getElementsByName("activityP");
+		var bP = document.getElementsByName("buildingP");		
+		for (var j = 0; j < nP; j++) {
+			if (wP[j].checked == true) {data[10] = wP[j].value;}
+			if (tP[j].checked == true) {data[11] = tP[j].value;}
+			if (aP[j].checked == true) {data[12] = aP[j].value;}
+			if (bP[j].checked == true) {data[13] = bP[j].value;}
+		}
+		
+		var nMiss = 0;
+		for (var m = 0; m < nD; m++) {
+			if (data[m] == undefined || data[m] == "") {nMiss++;}
+		}
+		
+		if (nMiss == 0) {
+            sessionStorage.setItem("Stage", 2);
+            window.location.href = "../MainTask.html";
+		} else {
+			alert("Please fill in all required fields!");
+		}
+	});
+});
+
+</script>
+
+</head>
+<body>
+<h2 style="font-family:arial;">Survey</h2>
+<p style="font-family:arial;font-weight:bold;color:blue;">Please take a few minutes to answer the following questions (all fields are required).</p>
+&nbsp;
+<p style="font-family:arial;font-weight:bold;">1. Please rank the cues from the most informative (1) to the least (4).</p>
+<p style="line-height:23px;font-family:arial;">For example, if you thought weather cues (sun/rain) were the most reliable indicator for winning a given trial and/or if you've made decisions mostly based on weather cues, weather would be the most informative cue.</p>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<td width = "50">most informative</td>
+<td width = "30"></td>
+<td><b>1. </b></td>
+<td><select id="rank1">
+<option value=""></option>
+<option value="W">weather</option>
+<option value="T">transportation</option>
+<option value="A">activity</option>
+<option value="B">building</option></select></td>
+<td width = "80"></td>
+<td><b>2. </b></td>
+<td><select id="rank2">
+<option value=""></option>
+<option value="W">weather</option>
+<option value="T">transportation</option>
+<option value="A">activity</option>
+<option value="B">building</option></select></td>
+<td width = "80"></td>
+<td><b>3. </b></td>
+<td><select id="rank3">
+<option value=""></option>
+<option value="W">weather</option>
+<option value="T">transportation</option>
+<option value="A">activity</option>
+<option value="B">building</option></select></td>
+<td width = "80"></td>
+<td><b>4. </b></td>
+<td><select id="rank4">
+<option value=""></option>
+<option value="W">weather</option>
+<option value="T">transportation</option>
+<option value="A">activity</option>
+<option value="B">building</option></select></td>
+<td width = "30"></td>
+<td width = "50">least informative</td>
+</table>
+
+&nbsp; 
+<p style="font-family:arial;font-weight:bold;">2. <span style="color:red;">In the slow phase</span>, how many cues, on average, did you take into account before making decisions?</b>&nbsp; &nbsp; &nbsp;
+<select id="nCue1">
+<option value=""></option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select></p>
+
+&nbsp; 
+<p style="font-family:arial;font-weight:bold;">3. <span style="color:red;">In the fast phase</span>, how many cues, on average, did you take into account before making decisions?</b>&nbsp; &nbsp; &nbsp;
+<select id="nCue2">
+<option value=""></option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select></p>
+
+&nbsp; 
+<p style="font-family:arial;font-weight:bold;">3. Please provide your best guess to answer the questions below.</b></p>
+<p style="font-family:arial;font-weight:bold;"> i) Weather</p>
+<ul style="font-family:arial;"><li>Which cue has a higher probability of winning?</li>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "50"><input type="radio" name="weather" value="1"></td>
+<td><img src="Stimuli/L1_1.png"></td>
+<td width = "150"></td>
+<td width = "50"><input type="radio" name="weather" value="2"></td>
+<td><img src="Stimuli/L1_2.png"></td></form>
+</table>
+<li>What is your estimate of a winning percentage of the cue you've selected above?</li></ul>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "150"><input type="radio" name="weatherP" value="50">&nbsp; 50%</td>
+<td width = "150"><input type="radio" name="weatherP" value="60">&nbsp; 60%</td>
+<td width = "150"><input type="radio" name="weatherP" value="70">&nbsp; 70%</td>
+<td width = "150"><input type="radio" name="weatherP" value="80">&nbsp; 80%</td>
+<td width = "150"><input type="radio" name="weatherP" value="90">&nbsp; 90%</td>
+<td width = "150"><input type="radio" name="weatherP" value="100">&nbsp; 100%</td></form>
+</table>
+
+&nbsp; 
+<p style="font-family:arial;font-weight:bold;"> ii) Transportation</p>
+<ul style="font-family:arial;"><li>Which cue has a higher probability of winning?</li>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "50"><input type="radio" name="transportation" value="2"></td>
+<td><img src="Stimuli/L2_2.png"></td>
+<td width = "150"></td>
+<td width = "50"><input type="radio" name="transportation" value="1"></td>
+<td><img src="Stimuli/L2_1.png"></td></form>
+</table>
+<li>What is your estimate of a winning percentage of the cue you've selected above?</li></ul>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "150"><input type="radio" name="transportationP" value="50">&nbsp; 50%</td>
+<td width = "150"><input type="radio" name="transportationP" value="60">&nbsp; 60%</td>
+<td width = "150"><input type="radio" name="transportationP" value="70">&nbsp; 70%</td>
+<td width = "150"><input type="radio" name="transportationP" value="80">&nbsp; 80%</td>
+<td width = "150"><input type="radio" name="transportationP" value="90">&nbsp; 90%</td>
+<td width = "150"><input type="radio" name="transportationP" value="100">&nbsp; 100%</td></form>
+</table>
+
+&nbsp; 
+<p style="font-family:arial;font-weight:bold;">iii) Activity</p>
+<ul style="font-family:arial;"><li>Which cue has a higher probability of winning?</li>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "50"><input type="radio" name="activity" value="1"></td>
+<td><img src="Stimuli/L3_1.png"></td>
+<td width = "150"></td>
+<td width = "50"><input type="radio" name="activity" value="2"></td>
+<td><img src="Stimuli/L3_2.png"></td></form>
+</table>
+<li>What is your estimate of a winning percentage of the cue you've selected above?</li></ul>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "150"><input type="radio" name="activityP" value="50">&nbsp; 50%</td>
+<td width = "150"><input type="radio" name="activityP" value="60">&nbsp; 60%</td>
+<td width = "150"><input type="radio" name="activityP" value="70">&nbsp; 70%</td>
+<td width = "150"><input type="radio" name="activityP" value="80">&nbsp; 80%</td>
+<td width = "150"><input type="radio" name="activityP" value="90">&nbsp; 90%</td>
+<td width = "150"><input type="radio" name="activityP" value="100">&nbsp; 100%</td></form>
+</table>
+
+&nbsp; 
+<p style="font-family:arial;font-weight:bold;">iv) Building</p>
+<ul style="font-family:arial;"><li>Which cue has a higher probability of winning?</li>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "50"><input type="radio" name="building" value="1"></td>
+<td><img src="Stimuli/L4_1.png"></td>
+<td width = "150"></td>
+<td width = "50"><input type="radio" name="building" value="2"></td>
+<td><img src="Stimuli/L4_2.png"></td></form>
+</table>
+<li>What is your estimate of a winning percentage of the cue you've selected above?</li></ul>
+<table style="font-family:arial;">
+<td width = "50"></td>
+<form><td width = "150"><input type="radio" name="buildingP" value="50">&nbsp; 50%</td>
+<td width = "150"><input type="radio" name="buildingP" value="60">&nbsp; 60%</td>
+<td width = "150"><input type="radio" name="buildingP" value="70">&nbsp; 70%</td>
+<td width = "150"><input type="radio" name="buildingP" value="80">&nbsp; 80%</td>
+<td width = "150"><input type="radio" name="buildingP" value="90">&nbsp; 90%</td>
+<td width = "150"><input type="radio" name="buildingP" value="100">&nbsp; 100%</td></form>
+</table>
+
+&nbsp; 
+<p></p> 
+<button id="returnButton" style="font-family:arial;weather:black;font-size:20px;">submit</button>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<html>
+<head>
+    <link rel="stylesheet" href="SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
+    <script type="text/javascript" src="jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="jquery-ui.js"></script>
+    <script type="text/javascript" src="jquery.imageloader.js"></script>
+    <script type="text/javascript" src="jquery.imageloader.min.js"></script>
+    <script type="text/javascript" src="TrialSequenceCT_Icons.js"></script>
+    <script type="text/javascript">
+
+        /*function gup( name, tmpURL )
+        {
+            var regexS = "[\\?&]"+name+"=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( tmpURL );
+            if( results == null )
+                return "";
+            else
+                return results[1];
+        }*/
+
+        $(document).ready(function () {
+            // TEST PHASE with 480 TRIALS WITH PROBABILISTIC FEEDBACK
+            // initialize experiment
+            var numBlock = 2; // total number of blocks
+            var numTrial = 5; // number of trials per block
+            var numSet = 1; // number of sets (120*1 = 120 trials)
+            var numBlockSet = numBlock / numSet; // number of blocks per set
+            var tRW = 15000; // response window in ms
+            var countBlock = -1; // counter for block
+            var countTrial = -1; // counter for trial
+            var flagResponse = -1;
+            var currentB = 0; // counter for current block
+            var pCorrect = 0;
+            var seqResp = new Array(numBlock);
+            var cueInd = new Array(numBlock);
+            var randP = new Array(numBlock); // random number that determines feedback
+            var uniqP = new Array(numBlock); // assigned probability that LEFT is correct
+            var nCorrect = 0; // number of correct response
+            var nInvalid = 0; // number of invalid response (slow/fast/wrong button)
+            var handleContainerL = document.getElementById('ContainerL');
+            var handleContainerR = document.getElementById('ContainerR');
+            var handleTimeout = 0;
+            var nPoints = 0;
+            //Esto no recuerdo como se sacaba, pondre un numero random por cuestion de funcionalidad
+            var cueProbID = 2;  
+            var seqID = 1; 
+            //var cueProbID = opener.getCueProbID();  // get ID for cue probability
+            //var seqID = opener.getSeqID(); // get pseudo-randomized sequence ID
+
+            data = [['']];
+            dataAll = [['']];
+            $("#indicator").hide();
+            $("#etc").hide();
+            $("#points").hide();
+            $("#StartExpButton").hide();
+            $("#EndBlockButton").hide();
+            $("#EndExpButton").hide();
+            $("#NextButton").hide();
+            $("#DataNP").hide();
+
+            // define trial sequence
+            var nS = 0;
+            var nB = 0;
+            var nT = 0;
+            for (nS = 0; nS < numSet; nS++) {
+                for (nB = 0; nB < numBlockSet; nB++) {
+                    cueInd[nB] = new Array(numTrial);
+                    seqResp[nB + (nS * numBlockSet)] = new Array(numTrial);
+                    randP[nB + (nS * numBlockSet)] = new Array(numTrial);
+                    uniqP[nB + (nS * numBlockSet)] = new Array(numTrial);
+                    for (nT = 0; nT < numTrial; nT++) {
+                        cueInd[nB][nT] = randIndTest1[seqID * numBlock + nB][nT]; // select randomized index
+                        randP[nB + (nS * numBlockSet)][nT] = Math.round(Math.random() * 10000) / 10000; // generates random number between 0(inclusive) and 1 (exclusive)
+                        uniqP[nB + (nS * numBlockSet)][nT] = uniqProb[indProbTest1[cueProbID][cueInd[nB + (nS * numBlockSet)][nT]]];
+                        if (randP[nB + (nS * numBlockSet)][nT] < uniqP[nB + (nS * numBlockSet)][nT]) { // select response sequence based on cue probability
+                            seqResp[nB + (nS * numBlockSet)][nT] = 1;
+                        } else {
+                            seqResp[nB + (nS * numBlockSet)][nT] = 2;
+                        }
+                    }
+                }
+            }
+
+            var loadedObjs = $({}).imageLoader({
+                images: filenames,
+                async: true,
+                allcomplete: function (e, ui) {
+                    $("#NextButton").show();
+                    $("#initialize").text("Ready to start!");
+                }
+            });
+            var imgs = loadedObjs.imageLoader('getData');
+
+            $("#NextButton").click(function () {
+                $("#NextButton").hide();
+                $("#initialize").hide();
+                initExp();
+            });
+
+            $("#StartExpButton").click(function () {
+                $("#instruction").hide();
+                $("#etc").hide();
+                $("#StartExpButton").hide();
+                $("#indicator").text('+');
+                $("#indicator").show();
+                runExp();
+            });
+
+            $("#EndBlockButton").click(function () {
+                $("#EndBlockButton").hide();
+                $("#etc").hide();
+                runExp();
+            });
+
+            $("#EndExpButton").click(function () {
+                dataAll.unshift(['Result', "Cue Number", "Random Number", "Probability of Cue", "Response", "Time of Response (ms)", "Response"])
+                dataAll.unshift(["Points", nPoints, "cueProbID", cueProbID, "seqID", seqID]); // record performance & parameter ID
+                //$("#DataP1", opener.window.document).val(dataAll.join(";"));
+                //opener.updateCumPoints(nPoints);
+                //opener.updateMainMenu(5);
+                //JavaScript: window.close();
+            });
+
+            function initExp() {
+                var flag = true;
+
+                /*if (typeof window.opener != 'undefined') {
+                    var aId = gup('assignmentId', window.opener.document.referrer);
+                    if (aId == "ASSIGNMENT_ID_NOT_AVAILABLE" || aId == "") {
+                        //flag = false;
+                    } else {
+                        flag = true;
+                    }
+                } else {
+                     flag = false;
+                }*/
+
+                if (flag) {
+                    $("#indicator").text("Your goal is to collect as many points as possible. You will have max 15 seconds to respond.");
+                    $("#indicator").show();
+                    $("#etc").text("Total 2 blocks. Running time: max 2 min/block");
+                    $("#etc").show();
+                    $("#StartExpButton").show();
+                } else {
+                    $("#indicator").text("Please do not copy & paste this link to your web browser. In order to do this task properly, close this page and restart by clicking the link on MTurk.");
+                    $("#indicator").show();
+                }
+            }
+
+            function runExp() {
+                countBlock++;
+                if (countBlock < numBlock) {
+                    data = [[""]]
+                    //data = [['Result',"Cue Number","Random Number","Probability of Cue","Response","Time of Response","Response"]]; // updated in every block
+                    countTrial = -1; // reset counter
+                    flagResponse = -1; // reset response flag
+                    nCorrect = 0; // reset response
+                    nInvalid = 0; // reset invalid response
+                    $("#indicator").hide();
+                    runCountdown(5); // countdown for the experiment
+                } else {
+                    // end experiment
+                    $("#etc").text('Your total score: ' + nPoints.toString() + ' points');
+                    $("#etc").show();
+                    $("#indicator").text('This is the end of the Phase I.');
+                    $("#instruction").text('Please proceed to the Fast Phase.');
+                    $("#indicator").show();
+                    $("#instruction").show();
+                    $("#EndExpButton").show();
+                }
+            }
+
+            function runTrial() {
+                countTrial++;
+                if (countTrial < numTrial) {
+                    d1 = new Date(); // record start time; also record trial type?
+                    $("#ContainerL").html(imgs[cuesTestL[cueInd[countBlock][countTrial]]].img);
+                    $("#ContainerR").html(imgs[cuesTestR[cueInd[countBlock][countTrial]]].img);
+                    flagResponse = 0;
+                    handleTimeout = setTimeout(showFixation, tRW); // response window
+                } else { // end run
+                    // calculate performance feedback
+                    data[numTrial] = ["Number correct in Block:", nCorrect, "nInvalid:", nInvalid];
+                    //merge data
+                    if (countBlock == 0) {
+                        dataAll = data;
+                    } else {
+                        dataAll = dataAll.concat(data);
+                    }
+                    // display texts
+                    currentB = countBlock + 1;
+                    pCorrect = Math.round(nCorrect / numTrial * 100);
+                    $("#points").hide();
+                    $("#indicator").text('This is the end of the block #' + currentB.toString() + '.');
+                    $("#indicator").show();
+                    $("#etc").text('You have earned ' + nPoints.toString() + ' points! (' + pCorrect.toString() + '% win)');
+                    $("#etc").show();
+                    $("#EndBlockButton").show();
+                }
+            }
+
+            function runCountdown(time) {
+                if (time > 0) {
+                    $("#indicator").text('' + time);
+                    $("#indicator").show();
+                    setTimeout(function () { runCountdown(time - 1) }, 1000);
+                } else {
+                    $("#indicator").text('+');
+                    $("#indicator").show();
+                    $("#points").text('score: ' + nPoints.toString());
+                    $("#points").show();
+                    runTrial();
+                }
+            }
+
+            function showFixation() {
+                if (flagResponse == 0) { //no response
+                    handleContainerL.innerHTML = "";
+                    handleContainerR.innerHTML = "";
+                    $("#indicator").text('too slow!');
+                    $("#indicator").show();
+                    data[countTrial] = ["N", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial]]; // if no response, record time with response = 0
+                    nInvalid++;
+                }
+                flagResponse = 1;
+                setTimeout(showFixation1, 1000);
+            }
+
+            function showFeedback(feedbackType) {
+                handleContainerL.innerHTML = "";
+                handleContainerR.innerHTML = "";
+                clearTimeout(handleTimeout);
+                if (feedbackType == 1) {
+                    $("#indicator").text('win');
+                    $("#points").text('score: ' + nPoints.toString());
+                    $("#indicator").show();
+                    $("#points").show();
+                } else if (feedbackType == 2) {
+                    $("#indicator").text('lose');
+                    $("#indicator").show();
+                } else if (feedbackType == 3) {
+                    $("#indicator").text('too fast!');
+                    $("#indicator").show();
+                } else {
+                    $("#indicator").text('Wrong button! Please press "z" or "m"');
+                    $("#indicator").show();
+                }
+                setTimeout(showFixation1, 1000);
+            }
+
+            function showFixation1() {
+                handleContainerL.innerHTML = "";
+                handleContainerR.innerHTML = "";
+                //$("#indicator").css('color','FFFFFF');
+                $("#indicator").text('+');
+                $("#indicator").show();
+                handleTimeout = setTimeout(runTrial, 1000);
+            }
+
+            $("body").keypress(function (event) {
+                if (flagResponse == 0) {
+                    flagResponse = 1;
+                    ans = String.fromCharCode(event.which)
+                    d2 = new Date(); // record response time
+                    if (d2.getTime() - d1.getTime() < 150) {
+                        nInvalid++;
+                        data[countTrial] = ["Too fast", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        showFeedback(3); // if RT < 150 ms, too fast
+                    } else if ((seqResp[countBlock][countTrial] == 1 && ans == 'z') || (seqResp[countBlock][countTrial] == 2 && ans == 'm')) {
+                        nCorrect++;
+                        nPoints = nPoints + 1;
+                        data[countTrial] = ["Correct response", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        showFeedback(1); // correct response
+                    } else if ((seqResp[countBlock][countTrial] == 2 && ans == 'z') || (seqResp[countBlock][countTrial] == 1 && ans == 'm')) {
+                        data[countTrial] = ["Incorrect response", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        showFeedback(2); // incorrect response
+                    } else {
+                        nInvalid++;
+                        data[countTrial] = ["Error wrong button press", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        showFeedback(5); // error! wrong button press
+                    }
+                }
+            });
+
+            ///Function To stop backspace presses 8, and spaces 32
+            $(function () {
+                /*
+                * this swallows backspace keys on any non-input element.
+                * stops backspace -> back
+                */
+                var rx = /INPUT|SELECT|TEXTAREA/i;
+
+                $(document).bind("keydown keypress", function (e) {
+                    if (e.which == 32 || e.which == 8) { // 8 == backspace
+                        if (!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly) {
+                            e.preventDefault();
+                        }
+                    }
+                });
+            });
+
+        });
+
+        function backMainMenu() {
+            window.location.href = "../MainTask.html";
+            sessionStorage.setItem("Stage", 4);
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="ContainerR"> </div>
+    <div id="ContainerL"> </div>
+
+    <table id="wrapper">
+        <tr>
+            <td>
+                <p id="indicator" style="font-family:arial;color:white;font-size:48px;"></p>
+                <p id="initialize" style="font-family:arial;color:white;font-size:48px;">loading... please wait.</p>
+                <p id="instruction" style="font-family:arial;color:white;font-size:48px;">Press "z" = left & "m" = right.</p>
+                <p id="etc" style="font-family:arial;color:black;font-size:48px;"></p>
+                <button id="StartExpButton" style="font-family:arial;color:black;font-size:24px;">I understand</button>
+                <button id="EndBlockButton" style="font-family:arial;color:black;font-size:24px;">Click here to start the next block</button>
+                <button id="EndExpButton" style="font-family:arial;color:black;font-size:24px;"onclick="backMainMenu()">Click here to proceed</button>
+                <button id="NextButton" style="font-family:arial;color:black;font-size:24px;">Click here to start the experiment</button>
+            </td>
+        </tr>
+    </table>
+
+    <div id="scoreboard"><p id="points" style="font-family:arial;color:white;font-size:30px;"> </p></div>
+
+</body>
+</html>
