@@ -2,28 +2,27 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="css/SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
     <title></title>
     <script src="js/MainTask.js"></script>
-    <script> 
-        
-        function readInstruction() {
-            window.location.href = "task/InstructionsIcons.html";          
+    <script>
+        function info() {
+            window.location.href = "task/html/Info.html";
         }
-        function readConsent() {
-            window.location.href = "task/InformedConsent.html";
+        function instructions() {
+            window.location.href = "task/html/Instructions.html";
         }
-        function survey() {
-            window.location.href = "task/Demographics_link.html";
-        }
+
         function practice() {
-            window.location.href = "task/Training.html";
+            window.location.href = "task/html/Training.html";
         }
+
         function phase1() {
-            window.location.href = "task/testing_1.html";
+            window.location.href = "task/html/testing_1.html";
         }
+
         function phase2() {
-            window.location.href = "task/testing_2.html";
+            window.location.href = "task/html/testing_2.html";
         }
 
     </script>
@@ -36,26 +35,13 @@
         <tbody>
             <tr>
                 <td>
-                    <form id="mturk_form" method="POST" action="https://www.mturk.com/mturk/externalSubmit">
-                        <input type="hidden" id="ExpName" name="ExpName" value="SAT_IconsTP">
-
-                        <p id="vCode" style="font-family: arial; color: white; font-size: 30px;"></p>
-                        <input type="hidden" id="Demographics" name="Demographics" type="text" value="">
-                        <input type="hidden" id="DataP1" type="text" name="DataP1">
-                        <input type="hidden" id="DataP2" type="text" name="DataP2">
-                        <input type="hidden" id="Survey" name="Survey" type="text" value="">
-                        <input id="submitButton" style="font-family: arial; color: black; font-size: 24px;" type="submit" name="Finish" value="Submit"> <br />
-                    </form>
-
                     <p id="initialize" style="font-family: arial; color: black; font-size: 36px;"></p>
-                    <button id="readInstruction" style="font-family: arial; color: black; font-size: 24px;" onclick="readInstruction()">Click here to view the description of this HIT</button>
-                    <button id="readConsent" style="font-family: arial; color: black; font-size: 24px;" onclick="readConsent()">Click here to view the informed consent of this HIT</button>
-                    <button id="startDemographics" style="font-family: arial; color: black; font-size: 24px;" onclick="survey()">Click here to start the survey</button>
+                    <button id="readInstruction" style="font-family: arial; color: black; font-size: 24px;" onclick="instructions()">Click here to view the description of this HIT</button>
+                    <button id="userData" style="font-family: arial; color: black; font-size: 24px;" onclick="info()">Click to fill the info</button>
                     <button id="startPractice" style="font-family: arial; color: black; font-size: 24px;" onclick="practice()">Click here to start a practice session</button>
                     <button id="startPhase1" style="font-family: arial; color: black; font-size: 24px;" onclick="phase1()">Click here to start</button>
                     <button id="startPhase2" style="font-family: arial; color: black; font-size: 24px;" onclick="phase2()">Click here to start</button>
-                    <button id="startSurvey" style="font-family: arial; color: black; font-size: 24px;">Click here to start the survey</button>
-                    <p id="NoGoIndicator" style="font-family: arial; color: white; font-size: 40px;">You either have not accepted the HIT or have not agreed to participate, or opened this page without clicking the link from MTurk. If you still want to participate, close this page and start again by clicking the link from MTurk.</p>
+                    <button id="submit" style="font-family: arial; color: black; font-size: 24px;" onclick="">Submit</button>
                     <button id="ClosePage" style="font-family: arial; color: black; font-size: 24px;">Close this page</button>
 
                 </td>

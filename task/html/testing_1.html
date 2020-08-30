@@ -1,29 +1,30 @@
 <html>
-<head>
-    <link rel="stylesheet" href="SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
-    <script type="text/javascript" src="jquery-1.7.1.js"></script>
-    <script type="text/javascript" src="jquery-ui.js"></script>
-    <script type="text/javascript" src="jquery.imageloader.js"></script>
-    <script type="text/javascript" src="jquery.imageloader.min.js"></script>
-    <script type="text/javascript" src="TrialSequenceCT_Icons.js"></script>
-    <script type="text/javascript">
 
-        function gup(name, tmpURL) {
-            var regexS = "[\\?&]" + name + "=([^&#]*)";
-            var regex = new RegExp(regexS);
-            var results = regex.exec(tmpURL);
-            if (results == null)
+<head>
+    <link rel="stylesheet" href="../css/SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
+    <script type="text/javascript" src="../js/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/jquery.imageloader.js"></script>
+    <script type="text/javascript" src="../js/jquery.imageloader.min.js"></script>
+    <script type="text/javascript" src="../js/TrialSequenceCT_Icons.js"></script>
+    <script type="text/javascript">
+        /*function gup( name, tmpURL )
+        {
+            var regexS = "[\\?&]"+name+"=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( tmpURL );
+            if( results == null )
                 return "";
             else
                 return results[1];
-        }
+        }*/
 
-        $(document).ready(function () {
-            // TEST PHASE with 240 TRIALS WITH PROBABILISTIC FEEDBACK
+        $(document).ready(function() {
+            // TEST PHASE with 480 TRIALS WITH PROBABILISTIC FEEDBACK
             // initialize experiment
-            var numBlock = 4; // total number of blocks
-            var numTrial = 60; // number of trials per block
-            var numSet = 1; // number of sets (240*1 = 240 trials)
+            var numBlock = 2; // total number of blocks
+            var numTrial = 1; // number of trials per block //valor inicial 5
+            var numSet = 1; // number of sets (120*1 = 120 trials)
             var numBlockSet = numBlock / numSet; // number of blocks per set
             var tRW = 15000; // response window in ms
             var countBlock = -1; // counter for block
@@ -40,16 +41,19 @@
             var handleContainerL = document.getElementById('ContainerL');
             var handleContainerR = document.getElementById('ContainerR');
             var handleTimeout = 0;
-            var nPoints = 0;
-            //Esto requiere que haga la funcion, pondre un numero Random mientras
-            var cueProbID = 1;  // get ID for cue probability
-            var seqID = 3; // get pseudo-randomized sequence ID
-
-            data = [['']];
-            dataAll = [['']];
+            var nPoints = 0;          
+            var cueProbID = parseInt(sessionStorage.getItem("cueProb"), 10); // get ID for cue probability
+            var seqID = Math.floor(Math.random() * 10); // get pseudo-randomized sequence ID
+            sessionStorage.setItem("seqID", seqID);
+ 
+            data = [
+                ['']
+            ];
+            dataAll = [
+                ['']
+            ];
             $("#indicator").hide();
-            $("#etc").hide();
-            $("#points").hide();
+            $("#etc").hide();;
             $("#StartExpButton").hide();
             $("#EndBlockButton").hide();
             $("#EndExpButton").hide();
@@ -62,15 +66,14 @@
             var nT = 0;
             for (nS = 0; nS < numSet; nS++) {
                 for (nB = 0; nB < numBlockSet; nB++) {
-                    cueInd[nB + (nS * numBlockSet)] = new Array(numTrial);
+                    cueInd[nB] = new Array(numTrial);
                     seqResp[nB + (nS * numBlockSet)] = new Array(numTrial);
                     randP[nB + (nS * numBlockSet)] = new Array(numTrial);
                     uniqP[nB + (nS * numBlockSet)] = new Array(numTrial);
                     for (nT = 0; nT < numTrial; nT++) {
-                        cueInd[nB][nT] = randIndTrain[seqID * numBlock + nB][nT]; // select randomized index
-
-                        randP[nB][nT] = Math.round(Math.random() * 10000) / 10000; // generates random number between 0(inclusive) and 1 (exclusive)
-                        uniqP[nB + (nS * numBlockSet)][nT] = uniqProb[indProbTrain[cueProbID][cueInd[nB][nT]] - 1];
+                        cueInd[nB][nT] = randIndTest1[seqID * numBlock + nB][nT]; // select randomized index
+                        randP[nB + (nS * numBlockSet)][nT] = Math.round(Math.random() * 10000) / 10000; // generates random number between 0(inclusive) and 1 (exclusive)
+                        uniqP[nB + (nS * numBlockSet)][nT] = uniqProb[indProbTest1[cueProbID][cueInd[nB + (nS * numBlockSet)][nT]]];
                         if (randP[nB + (nS * numBlockSet)][nT] < uniqP[nB + (nS * numBlockSet)][nT]) { // select response sequence based on cue probability
                             seqResp[nB + (nS * numBlockSet)][nT] = 1;
                         } else {
@@ -83,20 +86,20 @@
             var loadedObjs = $({}).imageLoader({
                 images: filenames,
                 async: true,
-                allcomplete: function (e, ui) {
+                allcomplete: function(e, ui) {
                     $("#NextButton").show();
                     $("#initialize").text("Ready to start!");
                 }
             });
             var imgs = loadedObjs.imageLoader('getData');
 
-            $("#NextButton").click(function () {
+            $("#NextButton").click(function() {
                 $("#NextButton").hide();
                 $("#initialize").hide();
                 initExp();
             });
 
-            $("#StartExpButton").click(function () {
+            $("#StartExpButton").click(function() {
                 $("#instruction").hide();
                 $("#etc").hide();
                 $("#StartExpButton").hide();
@@ -105,24 +108,21 @@
                 runExp();
             });
 
-            $("#EndBlockButton").click(function () {
+            $("#EndBlockButton").click(function() {
                 $("#EndBlockButton").hide();
                 $("#etc").hide();
                 runExp();
             });
 
-            $("#EndExpButton").click(function () {
-                dataAll.unshift(["p", nPoints, "cueProbID", cueProbID, "seqID", seqID]); // record performance & parameter ID
-                $("#DataNP", opener.window.document).val(dataAll.join(";"));
-                opener.updateCumPoints(nPoints);
-                opener.updateMainMenu(4);
-                JavaScript: window.close();
+            $("#EndExpButton").click(function() {
+                dataAll.unshift(['Result', "Cue Number", "Random Number", "Probability of Cue", "Response", "Time of Response (ms)", "Response"])
+                dataAll.unshift(["Points", nPoints, "cueProbID", cueProbID, "seqID", seqID]); // record performance & parameter ID
             });
 
             function initExp() {
                 var flag = true;
 
-                if (typeof window.opener != 'undefined') {
+                /*if (typeof window.opener != 'undefined') {
                     var aId = gup('assignmentId', window.opener.document.referrer);
                     if (aId == "ASSIGNMENT_ID_NOT_AVAILABLE" || aId == "") {
                         //flag = false;
@@ -130,13 +130,13 @@
                         flag = true;
                     }
                 } else {
-                    flag = false;
-                }
+                     flag = false;
+                }*/
 
                 if (flag) {
-                    $("#indicator").text("Your goal is to collect as many points as possible. You will have max 2 seconds to respond.");
+                    $("#indicator").text("Your goal is to collect as many points as possible. You will have max 15 seconds to respond.");
                     $("#indicator").show();
-                    $("#etc").text("Total 8 blocks. Running time: max 4 min/block");
+                    $("#etc").text("Total 2 blocks. Running time: max 2 min/block");
                     $("#etc").show();
                     $("#StartExpButton").show();
                 } else {
@@ -148,7 +148,10 @@
             function runExp() {
                 countBlock++;
                 if (countBlock < numBlock) {
-                    data = [['']]; // updated in every block
+                    data = [
+                        [""]
+                    ]
+                    //data = [['Result',"Cue Number","Random Number","Probability of Cue","Response","Time of Response","Response"]]; // updated in every block
                     countTrial = -1; // reset counter
                     flagResponse = -1; // reset response flag
                     nCorrect = 0; // reset response
@@ -171,14 +174,13 @@
                 countTrial++;
                 if (countTrial < numTrial) {
                     d1 = new Date(); // record start time; also record trial type?
-                    cue = cueInd[countBlock][countTrial]
-                    $("#ContainerL").html(imgs[cuesL[cue]].img);
-                    $("#ContainerR").html(imgs[cuesR[cue]].img);
+                    $("#ContainerL").html(imgs[cuesTestL[cueInd[countBlock][countTrial]]].img);
+                    $("#ContainerR").html(imgs[cuesTestR[cueInd[countBlock][countTrial]]].img);
                     flagResponse = 0;
                     handleTimeout = setTimeout(showFixation, tRW); // response window
                 } else { // end run
                     // calculate performance feedback
-                    data[numTrial] = ["B", nCorrect, "nInvalid", nInvalid];
+                    data[numTrial] = ["Number correct in Block:", nCorrect, "nInvalid:", nInvalid];
                     //merge data
                     if (countBlock == 0) {
                         dataAll = data;
@@ -188,7 +190,6 @@
                     // display texts
                     currentB = countBlock + 1;
                     pCorrect = Math.round(nCorrect / numTrial * 100);
-                    $("#points").hide();
                     $("#indicator").text('This is the end of the block #' + currentB.toString() + '.');
                     $("#indicator").show();
                     $("#etc").text('You have earned ' + nPoints.toString() + ' points! (' + pCorrect.toString() + '% win)');
@@ -201,12 +202,12 @@
                 if (time > 0) {
                     $("#indicator").text('' + time);
                     $("#indicator").show();
-                    setTimeout(function () { runCountdown(time - 1) }, 1000);
+                    setTimeout(function() {
+                        runCountdown(time - 1)
+                    }, 1000);
                 } else {
                     $("#indicator").text('+');
                     $("#indicator").show();
-                    $("#points").text('score: ' + nPoints.toString());
-                    $("#points").show();
                     runTrial();
                 }
             }
@@ -230,9 +231,7 @@
                 clearTimeout(handleTimeout);
                 if (feedbackType == 1) {
                     $("#indicator").text('win');
-                    $("#points").text('score: ' + nPoints.toString());
                     $("#indicator").show();
-                    $("#points").show();
                 } else if (feedbackType == 2) {
                     $("#indicator").text('lose');
                     $("#indicator").show();
@@ -255,40 +254,41 @@
                 handleTimeout = setTimeout(runTrial, 1000);
             }
 
-            $("body").keypress(function (event) {
+            $("body").keypress(function(event) {
                 if (flagResponse == 0) {
                     flagResponse = 1;
                     ans = String.fromCharCode(event.which)
                     d2 = new Date(); // record response time
                     if (d2.getTime() - d1.getTime() < 150) {
                         nInvalid++;
-                        data[countTrial] = ["F", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        data[countTrial] = ["Too fast", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(3); // if RT < 150 ms, too fast
                     } else if ((seqResp[countBlock][countTrial] == 1 && ans == 'z') || (seqResp[countBlock][countTrial] == 2 && ans == 'm')) {
                         nCorrect++;
                         nPoints = nPoints + 1;
-                        data[countTrial] = ["W", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        sessionStorage.setItem("Points", nPoints);
+                        data[countTrial] = ["Correct response", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(1); // correct response
                     } else if ((seqResp[countBlock][countTrial] == 2 && ans == 'z') || (seqResp[countBlock][countTrial] == 1 && ans == 'm')) {
-                        data[countTrial] = ["L", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        data[countTrial] = ["Incorrect response", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(2); // incorrect response
                     } else {
                         nInvalid++;
-                        data[countTrial] = ["E", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
+                        data[countTrial] = ["Error wrong button press", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(5); // error! wrong button press
                     }
                 }
             });
 
             ///Function To stop backspace presses 8, and spaces 32
-            $(function () {
+            $(function() {
                 /*
-                * this swallows backspace keys on any non-input element.
-                * stops backspace -> back
-                */
+                 * this swallows backspace keys on any non-input element.
+                 * stops backspace -> back
+                 */
                 var rx = /INPUT|SELECT|TEXTAREA/i;
 
-                $(document).bind("keydown keypress", function (e) {
+                $(document).bind("keydown keypress", function(e) {
                     if (e.which == 32 || e.which == 8) { // 8 == backspace
                         if (!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly) {
                             e.preventDefault();
@@ -298,6 +298,11 @@
             });
 
         });
+
+        function backMainMenu() {
+            window.location.href = "../../MainTask.html";
+            sessionStorage.setItem("Stage", 3);
+        }
 
     </script>
 </head>
@@ -316,13 +321,12 @@
                 <p id="etc" style="font-family:arial;color:black;font-size:48px;"></p>
                 <button id="StartExpButton" style="font-family:arial;color:black;font-size:24px;">I understand</button>
                 <button id="EndBlockButton" style="font-family:arial;color:black;font-size:24px;">Click here to start the next block</button>
-                <button id="EndExpButton" style="font-family:arial;color:black;font-size:24px;">Click here to proceed</button>
+                <button id="EndExpButton" style="font-family:arial;color:black;font-size:24px;" onclick="backMainMenu()">Click here to proceed</button>
                 <button id="NextButton" style="font-family:arial;color:black;font-size:24px;">Click here to start the experiment</button>
             </td>
         </tr>
     </table>
 
-    <div id="scoreboard"><p id="points" style="font-family:arial;color:white;font-size:30px;"> </p></div>
-
 </body>
+
 </html>

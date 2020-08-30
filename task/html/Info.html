@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../css/SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
+    <script>
+        function backToMainMenu() {
+            window.location.href = "../../MainTask.html";
+        }
+        function validateCueID() {
+            if (document.getElementById("cueprobID").value > 23 || document.getElementById("cueprobID").value < 0) {
+                alert("Wrong CueID values, please verify that the value is between 0 and 23");
+                return false;
+            } else {
+                sessionStorage.setItem("cueProb", document.getElementById("cueprobID").value);
+                sessionStorage.setItem("userID", document.getElementById("userID").value);
+                sessionStorage.setItem("Stage", 1);
+            }
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="return validateCueID()" action="../../MainTask.html">
+        <h1>Please fill the information below</h1>
+        <fieldset>
+            <legend>ID</legend>
+            <label for="userID">ID</label><br /><br />
+            <input type="text" id="userID" required autofocus placeholder="Enter your ID here" />
+        </fieldset>
+        <fieldset>
+            <legend>CueID</legend>
+            <label for="cueprobID">CueProbID</label><br /><br />
+            <input type="number" min="0" max="23" id="cueprobID" required placeholder="0" /> <label>Pro tip: Ask for this number! =)</label>
+        </fieldset><br /><br />
+        <input type="submit" value="Submit" />
+    </form>
+    
+</body>
+</html>

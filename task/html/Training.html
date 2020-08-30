@@ -1,22 +1,23 @@
 <html>
+
 <head>
-    <link rel="stylesheet" href="SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
-    <script type="text/javascript" src="jquery-1.7.1.js"></script>
-    <script type="text/javascript" src="jquery-ui.js"></script>
-    <script type="text/javascript" src="jquery.imageloader.js"></script>
-    <script type="text/javascript" src="jquery.imageloader.min.js"></script>
-    <script type="text/javascript" src="TrialSequencePractice.js"></script>
+    <link rel="stylesheet" href="../css/SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
+    <script type="text/javascript" src="../js/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+    <script type="text/javascript" src="../js/jquery.imageloader.js"></script>
+    <script type="text/javascript" src="../js/jquery.imageloader.min.js"></script>
+    <script type="text/javascript" src="../js/TrialSequencePractice.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             // initialize experiment (does not collect data)
-            var numBlock = 1; // number of blocks
-            var numTrial = 8; // number of trials per block
+            var numBlock = 4; // number of blocks
+            var numTrial = 2; // number of trials per block
             var tRW = 15000; // response window
             var countBlock = -1;
             var countTrial = -1; // counter for trial
             var flagResponse = -1; // initialize response flag
             var nResponse = 0;
-            var nPoints = 0;//opener.getCumPoints();
+            var nPoints = 0; 
             var handleContainerL = document.getElementById('ContainerL');
             var handleContainerR = document.getElementById('ContainerR');
             var handleTimeout = 0;
@@ -24,19 +25,18 @@
             $("#indicator").hide();
             $("#EndExpButton").hide();
             $("#NextButton").hide();
-            $("#points").hide();
 
             var loadedObjs = $({}).imageLoader({
                 images: filenames,
                 async: true,
-                allcomplete: function (e, ui) {
+                allcomplete: function(e, ui) {
                     $("#NextButton").show();
                     $("#initialize").text("Ready to start!");
                 }
             });
             var imgs = loadedObjs.imageLoader('getData');
 
-            $("#NextButton").click(function () {
+            $("#NextButton").click(function() {
                 $("#NextButton").hide();
                 $("#initialize").hide();
                 $("#instruction").hide();
@@ -56,8 +56,7 @@
                 } else {
                     // end experiment
                     if (nResponse > 0) {
-                        $("#points").hide();
-                        $("#indicator").text("This is the end of the practice.");
+                        $("#indicator").text("This is the end of the practice. Final Score: "+ nPoints.toString());
                         $("#instruction").text("Please proceed to the next step.");
                         $("#indicator").show();
                         $("#instruction").show();
@@ -87,12 +86,12 @@
                 if (time > 0) {
                     $("#indicator").text('' + time);
                     $("#indicator").show();
-                    setTimeout(function () { runCountdown(time - 1) }, 1000);
+                    setTimeout(function() {
+                        runCountdown(time - 1)
+                    }, 1000);
                 } else {
                     $("#indicator").text('+');
-                    $("#indicator").show();
-                    $("#points").text('score: ' + nPoints.toString());
-                    $("#points").show();
+                    $("#indicator").show();                  
                     runTrial();
                 }
             }
@@ -114,7 +113,6 @@
                 clearTimeout(handleTimeout);
                 if (feedbackType == 1) {
                     $("#indicator").text('win');
-                    $("#points").text('score: ' + nPoints.toString());
                 } else if (feedbackType == 2) {
                     $("#indicator").text('lose');
                 } else if (feedbackType == 3) {
@@ -123,7 +121,6 @@
                     $("#indicator").text('Wrong button! Please press "z" or "m"');
                 }
                 $("#indicator").show();
-                $("#points").show();
                 setTimeout(showFixation1, 1000);
             }
 
@@ -135,7 +132,7 @@
                 handleTimeout = setTimeout(runTrial, 1000);
             }
 
-            $("body").keypress(function (event) {
+            $("body").keypress(function(event) {
                 if (flagResponse == 0) {
                     flagResponse = 1;
                     ans = String.fromCharCode(event.which)
@@ -156,14 +153,14 @@
             });
 
             ///Function To stop backspace presses 8, and spaces 32
-            $(function () {
+            $(function() {
                 /*
-                * this swallows backspace keys on any non-input element.
-                * stops backspace -> back
-                */
+                 * this swallows backspace keys on any non-input element.
+                 * stops backspace -> back
+                 */
                 var rx = /INPUT|SELECT|TEXTAREA/i;
 
-                $(document).bind("keydown keypress", function (e) {
+                $(document).bind("keydown keypress", function(e) {
                     if (e.which == 32 || e.which == 8) { // 8 == backspace
                         if (!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly) {
                             e.preventDefault();
@@ -175,9 +172,10 @@
         });
 
         function backMainMenu() {
-            window.location.href = "../MainTask.html";
-            sessionStorage.setItem("Stage", 3);
+            window.location.href = "../../MainTask.html";
+            sessionStorage.setItem("Stage", 2);
         }
+
     </script>
 </head>
 
@@ -197,6 +195,6 @@
             </td>
         </tr>
     </table>
-    <div id="scoreboard"><p id="points" style="font-family:arial;color:white;font-size:30px;"> </p></div>
 </body>
+
 </html>
