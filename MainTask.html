@@ -1,28 +1,36 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <link rel="stylesheet" href="css/SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
+﻿<head>
+    <link rel="stylesheet" href="/css/SatisficingScreenIcons.css" />
     <title></title>
-    <script src="js/MainTask.js"></script>
+    <script src="/js/MainTask.js"></script>
     <script>
         function info() {
-            window.location.href = "task/html/Info.html";
+            window.location.href = "/task/Info.html";
         }
-        function instructions() {
-            window.location.href = "task/html/Instructions.html";
-        }
-
         function practice() {
-            window.location.href = "task/html/Training.html";
+            window.location.href = "task/PhaseI.html";
         }
 
         function phase1() {
-            window.location.href = "task/html/testing_1.html";
+            window.location.href = "task/PhaseII.html";
         }
 
         function phase2() {
-            window.location.href = "task/html/testing_2.html";
+            window.location.href = "task/PhaseIII.html";
+        }
+
+        function addData() {
+            document.getElementById("data").value = "ID: " + sessionStorage.getItem("userID") + "\r\n" 
+                + "Final Score: " + sessionStorage.getItem("Points") + "\r\n"
+                + "CueprobID: " + sessionStorage.getItem("cueProb") + "\r\n"
+                + "Actions Phase I: [" + sessionStorage.getItem("action1") + "]\r\n"
+                + "Decisions Phase I: [" + sessionStorage.getItem("decision1") + "]\r\n"
+                + "SeqID: "+ sessionStorage.getItem("seqID") + "\r\n"
+                + "Actions Phase II: [" + sessionStorage.getItem("decision1") + "]\r\n"
+                + "Decisions Phase II: [" + sessionStorage.getItem("decision1") + "]\r\n"
+                + "Actions Phase III: [" + sessionStorage.getItem("decision1") + "]\r\n"
+                + "Decisions Phase III: [" + sessionStorage.getItem("decision1") + "]\r\n";
+
+
         }
 
     </script>
@@ -36,13 +44,14 @@
             <tr>
                 <td>
                     <p id="initialize" style="font-family: arial; color: black; font-size: 36px;"></p>
-                    <button id="readInstruction" style="font-family: arial; color: black; font-size: 24px;" onclick="instructions()">Click here to view the description of this HIT</button>
                     <button id="userData" style="font-family: arial; color: black; font-size: 24px;" onclick="info()">Click to fill the info</button>
                     <button id="startPractice" style="font-family: arial; color: black; font-size: 24px;" onclick="practice()">Click here to start a practice session</button>
                     <button id="startPhase1" style="font-family: arial; color: black; font-size: 24px;" onclick="phase1()">Click here to start</button>
                     <button id="startPhase2" style="font-family: arial; color: black; font-size: 24px;" onclick="phase2()">Click here to start</button>
-                    <button id="submit" style="font-family: arial; color: black; font-size: 24px;" onclick="">Submit</button>
-                    <button id="ClosePage" style="font-family: arial; color: black; font-size: 24px;">Close this page</button>
+                    <form action="/task/End.html" method="post">                      
+                        <input type="text" name="data" id="data"/>
+                        <input type="submit" value="Submit" id="submit"  onclick="addData()"/>
+                    </form>
 
                 </td>
             </tr>
@@ -50,4 +59,3 @@
     </table>
 </body>
 
-</html>
