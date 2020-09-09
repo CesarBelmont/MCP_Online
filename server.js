@@ -40,8 +40,7 @@ app.post('/task/End.html', (req, res) => {
     var fs = require('fs');
     var data = req.body.data;
     fs.appendFile('data.txt', data, function (err) {
-        if (err) throw err;
-        console.log("Creado!");
+        if (err) throw err;       
     });
     
 });

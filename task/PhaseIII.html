@@ -46,6 +46,9 @@
             var seqID = parseInt(sessionStorage.getItem("seqID"), 10); // get pseudo-randomized sequence ID
             var actionList = [];
             var decisionList = [];
+            var responseTime = [];
+            var phaseIIIL = [];
+            var phaseIIIR = [];
 
             data = [
                 ['']
@@ -179,6 +182,10 @@
                     d1 = new Date(); // record start time; also record trial type?
                     $("#ContainerL").html(imgs[cuesTestL[cueInd[countBlock][countTrial]]].img);
                     $("#ContainerR").html(imgs[cuesTestR[cueInd[countBlock][countTrial]]].img);
+                    phaseIIIL.push(cuesTestL[cueInd[countBlock][countTrial]]);
+                    phaseIIIR.push(cuesTestR[cueInd[countBlock][countTrial]]);
+                    sessionStorage.setItem("CueTestL2", phaseIIIL);
+                    sessionStorage.setItem("CueTestR2", phaseIIIR);
                     flagResponse = 0;
                     handleTimeout = setTimeout(showFixation, tRW); // response window
                 } else { // end run
@@ -225,6 +232,8 @@
                     $("#indicator").show();
                     actionList.push("TimeOut");
                     decisionList.push("TimeOut");
+                    responseTime.push(15000);
+                    sessionStorage.setItem("responseT3", responseTime);
                     data[countTrial] = ["N", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial]]; // if no response, record time with response = 0
                     nInvalid++;
                 }
@@ -275,6 +284,8 @@
                         decisionList.push("TooFast");
                         sessionStorage.setItem("action3", actionList);
                         sessionStorage.setItem("decision3", decisionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT3", responseTime);
                     } else if ((seqResp[countBlock][countTrial] == 1 && ans == 'x') || (seqResp[countBlock][countTrial] == 2 && ans == 'm')) {
                         nCorrect++;
                         nPoints = nPoints + 1;
@@ -282,6 +293,8 @@
                         showFeedback(1); // correct response
                         actionList.push("Correct");
                         sessionStorage.setItem("action3", actionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT3", responseTime);
                         if (ans == 'x') {
                             decisionList.push("1");
                             sessionStorage.setItem("decision3", decisionList);
@@ -294,6 +307,8 @@
                         showFeedback(2); // incorrect response
                         actionList.push("Incorrect");
                         sessionStorage.setItem("action3", actionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT3", responseTime);
                         if (ans == 'z') {
                             decisionList.push("1");
                             sessionStorage.setItem("decision3", decisionList);
@@ -309,6 +324,8 @@
                         decisionList.push("WrongButton");
                         sessionStorage.setItem("action3", actionList);
                         sessionStorage.setItem("decision3", decisionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT3", responseTime);
                     }
                 }
             });
@@ -351,7 +368,7 @@
             <td>
                 <p id="indicator" style="font-family:arial;color:white;font-size:48px;"></p>
                 <p id="initialize" style="font-family:arial;color:white;font-size:48px;">loading... please wait.</p>
-                <p id="instruction" style="font-family:arial;color:white;font-size:48px;">Press "z" = left & "m" = right.</p>
+                <p id="instruction" style="font-family:arial;color:white;font-size:48px;">Press "x" = left & "m" = right.</p>
                 <p id="etc" style="font-family:arial;color:black;font-size:48px;"></p>
                 <button id="StartExpButton" style="font-family:arial;color:black;font-size:24px;">I understand</button>
                 <button id="EndBlockButton" style="font-family:arial;color:black;font-size:24px;">Click here to start the next block</button>

@@ -1,0 +1,7 @@
+Estando en esta carpeta abre una consola (escribiendo "cmd" en la ruta de los archivos)
+
+Una vez dentro de la consola escribe "npm install" (debes de tener node js instalado primero)
+
+Cuando se termine de instalar todo ejecuta "node server"
+
+Abre el navegador y ve a la direccion "localhost:8080"

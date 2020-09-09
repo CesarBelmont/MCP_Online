@@ -23,6 +23,9 @@
             var handleTimeout = 0;
             var actionList = [];
             var decisionList = [];
+            var responseTime = [];
+            var phaseIL = [];
+            var phaseIR = [];
 
             $("#indicator").hide();
             $("#EndExpButton").hide();
@@ -78,6 +81,10 @@
                     $("#ContainerL").html(imgs[cuesL[countTrial]].img);
                     $("#ContainerR").html(imgs[cuesR[countTrial]].img);
                     flagResponse = 0;
+                    phaseIL.push(cuesL[countTrial]);
+                    phaseIR.push(cuesR[countTrial]);
+                    sessionStorage.setItem("cuesL", phaseIL);
+                    sessionStorage.setItem("cuesR", phaseIR);
                     handleTimeout = setTimeout(showFixation, tRW);
                 } else { // end run
                     $("#indicator").hide();
@@ -105,6 +112,8 @@
                     handleContainerR.innerHTML = "";
                     $("#indicator").text('too slow!');
                     $("#indicator").show();
+                    responseTime.push(15000);
+                    sessionStorage.setItem("responseT1", responseTime);
 
                 }
                 flagResponse = 1;
@@ -147,12 +156,16 @@
                         decisionList.push("TooFast");
                         sessionStorage.setItem("action1", actionList);
                         sessionStorage.setItem("decision1", decisionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT1", responseTime);
                     } else if ((correctResp[countTrial] == 1 && ans == 'x') || (correctResp[countTrial] == 2 && ans == 'm')) {
                         nResponse++;
                         nPoints = nPoints + 1;
                         showFeedback(1); // correct response
                         actionList.push("Correct");
                         sessionStorage.setItem("action1", actionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT1", responseTime);
                         if (ans == 'x') {
                             decisionList.push("1");
                             sessionStorage.setItem("decision1", decisionList);
@@ -165,6 +178,8 @@
                         showFeedback(2); // incorrect response
                         actionList.push("Incorrect");
                         sessionStorage.setItem("action1", actionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT1", responseTime);
                         if (ans == 'x') {
                             decisionList.push("1");
                             sessionStorage.setItem("decision1", decisionList);
@@ -178,6 +193,8 @@
                         decisionList.push("WrongButton");
                         sessionStorage.setItem("action1", actionList);
                         sessionStorage.setItem("decision1", decisionList);
+                        responseTime.push(d2.getTime() - d1.getTime());
+                        sessionStorage.setItem("responseT1", responseTime);
                     }
                 }
             });
@@ -220,7 +237,7 @@
             <td>
                 <p id="indicator" style="font-family:arial;color:white;font-size:48px;"></p>
                 <p id="initialize" style="font-family:arial;color:white;font-size:48px;">loading... please wait.</p>
-                <p id="instruction" style="font-family:arial;color:white;font-size:48px;">Press "z" = left & "m" = right.</p>
+                <p id="instruction" style="font-family:arial;color:white;font-size:48px;">Press "x" = left & "m" = right.</p>
                 <p id="etc" style="font-family:arial;color:black;font-size:48px;">Your goal is to collect as many points as possible. You will have max 15 seconds to respond.</p>
                 <button id="EndExpButton" style="font-family:arial;color:black;font-size:24px;" onclick="backMainMenu()">Click here to proceed</button>
                 <button id="NextButton" style="font-family:arial;color:black;font-size:24px;">Click here to start a practice session</button>
