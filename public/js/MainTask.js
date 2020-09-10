@@ -1,12 +1,11 @@
 
-function hideAll() { //Hide all elements (Buttons and the NoGoIndicator)
+function hideAll() { //Hide all elements 
     document.getElementById("userData").style.display = "none";
     document.getElementById("startPractice").style.display = "none";
     document.getElementById("startPhase1").style.display = "none";
     document.getElementById("startPhase2").style.display = "none";
     document.getElementById("initialize").style.display = "none";
     document.getElementById("submit").style.display = "none";
-    document.getElementById("data").style.display = "none";
 }
 
 function updateMenu(expStage) { //Depending on the stage it will display a diferent button
