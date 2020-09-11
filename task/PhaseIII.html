@@ -234,6 +234,8 @@
                     decisionList.push("TimeOut");
                     responseTime.push(15000);
                     sessionStorage.setItem("responseT3", responseTime);
+                    sessionStorage.setItem("action3", actionList);
+                    sessionStorage.setItem("decision3", decisionList);
                     data[countTrial] = ["N", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial]]; // if no response, record time with response = 0
                     nInvalid++;
                 }
