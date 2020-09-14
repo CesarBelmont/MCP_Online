@@ -22,8 +22,8 @@
         $(document).ready(function() {
             // TEST PHASE with 480 TRIALS WITH PROBABILISTIC FEEDBACK
             // initialize experiment
-            var numBlock = 2; // total number of blocks
-            var numTrial = 1; // number of trials per block //valor inicial 5
+            var numBlock = 3; // total number of blocks
+            var numTrial = 4; // number of trials per block 
             var numSet = 1; // number of sets (120*1 = 120 trials)
             var numBlockSet = numBlock / numSet; // number of blocks per set
             var tRW = 15000; // response window in ms
@@ -51,6 +51,8 @@
             var responseTime = [];
             var phaseIIL = [];
             var phaseIIR = [];
+            var Trial2 = [] 
+            var count = parseInt(sessionStorage.getItem("Count"), 10);
  
             data = [
                 ['']
@@ -186,6 +188,10 @@
                     phaseIIR.push(cuesTestR[cueInd[countBlock][countTrial]]);
                     sessionStorage.setItem("CueTestL", phaseIIL);
                     sessionStorage.setItem("CueTestR", phaseIIR);
+                    count++;
+                    Trial2.push(count);
+                    sessionStorage.setItem("Count", count);
+                    sessionStorage.setItem("Trial2", Trial2);  
                     flagResponse = 0;
                     handleTimeout = setTimeout(showFixation, tRW); // response window
                 } else { // end run
@@ -206,6 +212,7 @@
                     $("#etc").show();
                     $("#EndBlockButton").show();
                 }
+   
             }
 
             function runCountdown(time) {
@@ -234,6 +241,10 @@
                     sessionStorage.setItem("responseT2", responseTime);
                     sessionStorage.setItem("action2", actionList);
                     sessionStorage.setItem("decision2", decisionList);
+                    count++;
+                    Trial2.push(count);
+                    sessionStorage.setItem("Count", count);
+                    sessionStorage.setItem("Trial2", Trial2); 
                     data[countTrial] = ["N", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial]]; // if no response, record time with response = 0
                     nInvalid++;
                 }
@@ -276,6 +287,7 @@
                     flagResponse = 1;
                     ans = String.fromCharCode(event.which);
                     d2 = new Date(); // record response time
+                                 
                     if (d2.getTime() - d1.getTime() < 150) {
                         nInvalid++;
                         data[countTrial] = ["Too fast", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]

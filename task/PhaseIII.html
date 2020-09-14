@@ -20,8 +20,8 @@
 
         $(document).ready(function () {
             // initialize experiment
-            var numBlock = 2; // total number of blocks
-            var numTrial = 1; // number of trials per block  //5 valor original
+            var numBlock = 3; // total number of blocks
+            var numTrial = 4; // number of trials per block  
             var numSet = 1; // number of sets (240 trials)
             var tRW = 15000; // response window in ms
             var countBlock = -1; // counter for block
@@ -49,6 +49,9 @@
             var responseTime = [];
             var phaseIIIL = [];
             var phaseIIIR = [];
+            var Trial3 = [];
+            var count = parseInt(sessionStorage.getItem("Count"), 10);
+
 
             data = [
                 ['']
@@ -186,6 +189,9 @@
                     phaseIIIR.push(cuesTestR[cueInd[countBlock][countTrial]]);
                     sessionStorage.setItem("CueTestL2", phaseIIIL);
                     sessionStorage.setItem("CueTestR2", phaseIIIR);
+                    count++;
+                    Trial3.push(count);
+                    sessionStorage.setItem("Trial3", Trial3);
                     flagResponse = 0;
                     handleTimeout = setTimeout(showFixation, tRW); // response window
                 } else { // end run
@@ -208,6 +214,8 @@
                     $("#etc").show();
                     $("#EndBlockButton").show();
                 }
+                
+
             }
 
             function runCountdown(time) {
@@ -236,6 +244,9 @@
                     sessionStorage.setItem("responseT3", responseTime);
                     sessionStorage.setItem("action3", actionList);
                     sessionStorage.setItem("decision3", decisionList);
+                    count++;
+                    Trial3.push(count);
+                    sessionStorage.setItem("Trial3", Trial3);  
                     data[countTrial] = ["N", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial]]; // if no response, record time with response = 0
                     nInvalid++;
                 }
@@ -278,6 +289,7 @@
                     flagResponse = 1;
                     ans = String.fromCharCode(event.which);
                     d2 = new Date(); // record response time
+                  
                     if (d2.getTime() - d1.getTime() < 150) {
                         nInvalid++;
                         data[countTrial] = ["F", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]

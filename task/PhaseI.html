@@ -26,6 +26,8 @@
             var responseTime = [];
             var phaseIL = [];
             var phaseIR = [];
+            var Trial = [];
+            var count = 0;
 
             $("#indicator").hide();
             $("#EndExpButton").hide();
@@ -80,16 +82,21 @@
                     d1 = new Date(); // record start time
                     $("#ContainerL").html(imgs[cuesL[countTrial]].img);
                     $("#ContainerR").html(imgs[cuesR[countTrial]].img);
-                    flagResponse = 0;
+                    flagResponse = 0;                    
                     phaseIL.push(cuesL[countTrial]);
                     phaseIR.push(cuesR[countTrial]);
                     sessionStorage.setItem("cuesL", phaseIL);
                     sessionStorage.setItem("cuesR", phaseIR);
                     handleTimeout = setTimeout(showFixation, tRW);
+                    Trial.push(count);
+                    sessionStorage.setItem("Count", count);
+                    sessionStorage.setItem("Trial", Trial);
+                    count++;
                 } else { // end run
                     $("#indicator").hide();
                     runExp();
                 }
+                
             }
 
             function runCountdown(time) {
@@ -117,8 +124,7 @@
                     decisionList.push("TimeOut");
                     sessionStorage.setItem("action1", actionList);
                     sessionStorage.setItem("decision1", decisionList);
-                    sessionStorage.setItem("responseT1", responseTime);
-
+                    sessionStorage.setItem("responseT1", responseTime);                          
                 }
                 flagResponse = 1;
                 setTimeout(showFixation1, 1000);
@@ -153,7 +159,8 @@
                 if (flagResponse == 0) {
                     flagResponse = 1;
                     ans = String.fromCharCode(event.which);
-                    d2 = new Date(); // record response time
+                    d2 = new Date(); // record response time                    
+                   
                     if (d2.getTime() - d1.getTime() < 150) {
                         showFeedback(3); // if RT < 150 ms, too fast
                         actionList.push("TooFast");

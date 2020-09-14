@@ -1,39 +1,0 @@
-ID: 1111
-Actions Phase I: [Correct,Correct,Incorrect,Incorrect,Incorrect,Correct,Correct,Correct,Incorrect,Incorrect,Incorrect,Correct]
-Final Score: 6
-CueprobID: 5
-Response Time Phase I: [450,294,301,300,366,250,326,278,350,344,346,370]
-Decisions Phase I: [1,0,1,0,1,0,1,0,1,0,1,0]
-Cues Left Phase I: [0,14,8,0,14,8,0,14,8,0,14,8]
-Cues Right Phase I: [15,1,4,15,1,4,15,1,4,15,1,4]
-Actions Phase II: [Incorrect,Incorrect]
-SeqID: 1
-Cues Left Phase II: [4,7]
-Response Time Phase II: [260,439]
-Actions Phase III: [Incorrect,Incorrect]
-Decisions Phase II: [1,0]
-Cues Right Phase II: [6,14]
-Decisions Phase III: [0,0]
-Response Time Phase III: [610,478]
-Cues Right Phase III: [5,13]
-Cues Left Phase III: [11,11]
-Final Score: 6
-ID: 1111
-Actions Phase I: [Correct,Correct,Incorrect,Incorrect,Incorrect,Correct,Correct,Correct,Incorrect,Incorrect,Incorrect,Correct]
-CueprobID: 5
-Decisions Phase I: [1,0,1,0,1,0,1,0,1,0,1,0]
-Response Time Phase I: [450,294,301,300,366,250,326,278,350,344,346,370]
-Cues Left Phase I: [0,14,8,0,14,8,0,14,8,0,14,8]
-Cues Right Phase I: [15,1,4,15,1,4,15,1,4,15,1,4]
-SeqID: 1
-Actions Phase II: [Incorrect,Incorrect]
-Decisions Phase II: [1,0]
-Cues Left Phase II: [4,7]
-Cues Right Phase II: [6,14]
-Actions Phase III: [Incorrect,Incorrect]
-Response Time Phase II: [260,439]
-Decisions Phase III: [0,0]
-Response Time Phase III: [610,478]
-Cues Right Phase III: [5,13]
-Cues Left Phase III: [11,11]
-
