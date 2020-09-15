@@ -109,25 +109,30 @@ app.post('/task/End.html', (req, res) => {
             "Phase": 3
         };
     }
-    if (!fs.existsSync('data.json')) {
-        let file = [];
-        fs.writeFile('data.json', JSON.stringify(file), function (err) {
-            if (err) throw err;
-        });
-    }
-    fs.readFile('data.json', function (err, data) {
+
+    let file = [];
+    fs.writeFile('./Data/data.json', JSON.stringify(file), function (err) {
+        if (err) throw err;
+    });
+
+    fs.readFile('./Data/data.json', function (err, data) {
         if (err) {
             console.log(err);
         }
-        
-        var json = JSON.parse(data);       
+        var json = JSON.parse(data);
         json.push(datap1);
         json.push(datap2);
         json.push(datap3);
-        fs.writeFileSync('data.json', JSON.stringify(json, null, 2), function (err) {
+        fs.writeFileSync('./Data/data.json', JSON.stringify(json, null, 2), function (err) {
             if (err) throw err;
         });
-    });
+        fs.copyFile('./Data/data.json', './Data/' + id + '.json', function (err) {
+            if (err) throw err;
+        });
+        fs.unlink('./Data/data.json', function (err) {
+            if (err) throw err;
+        });
+    });  
 });
 
 app.listen(port, () => console.log(`Ready in port ${port}!`));
