@@ -8,6 +8,17 @@
     <script type="text/javascript" src="../js/jquery.imageloader.min.js"></script>
     <script type="text/javascript" src="../js/TrialSequenceCT_Icons.js"></script>
     <script type="text/javascript">
+        //Prevent user from using F12 key and inspect element
+        $(document).keydown(function (event) {
+            if (event.keyCode == 123) {
+                return false;
+            } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                return false;
+            }
+        });
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
         function gup(name, tmpURL) {
             var regexS = "[\\?&]" + name + "=([^&#]*)";
             var regex = new RegExp(regexS);

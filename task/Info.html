@@ -2,11 +2,22 @@
 <html>
 <head>
     <link rel="stylesheet" href="../css/SatisficingScreenIcons.css" type="text/css" charset="utf-8" />
+    <script type="text/javascript" src="../js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        // Prevent user from using F12 key and inspect element
+        $(document).keydown(function (event) {
+            if (event.keyCode == 123) {
+                return false;
+            } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                return false;
+            }
+        });
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
+    </script>
     <script>
-        function backToMainMenu() {
-            window.location.href = "../../MainTask.html";
-        }
-        function validateCueID() {
+        function validate() {
             if (document.getElementById("cueprobID").value > 23 || document.getElementById("cueprobID").value < 0) {
                 alert("Wrong CueID values, please verify that the value is between 0 and 23");
                 return false;
@@ -15,24 +26,35 @@
                 sessionStorage.setItem("userID", document.getElementById("userID").value);
                 sessionStorage.setItem("Stage", 1);
             }
+            var inputPass = document.getElementById("password").value;
+            var generatedPass = sessionStorage.getItem("Password");
+            if (inputPass != generatedPass) {
+                alert("Wrong password, please try again");
+                return false;
+            }
+            
         }
     </script>
 </head>
 <body>
-    <form onsubmit="return validateCueID()" action="../../MainTask.html">
+    <form onsubmit="return validate()" action="../../MainTask.html">
         <h1>Please fill the information below</h1>
         <fieldset>
             <legend>ID</legend>
-            
+
             <input type="text" id="userID" required autofocus placeholder="Enter your ID here" />
         </fieldset>
         <fieldset>
+            <legend>Password</legend>
+            <input type="password" id="password" required placeholder="Enter the password here" /> <label>Pro tip: Ask for this! =)</label>
+        </fieldset>
+        <fieldset>
             <legend>CueID</legend>
-            
+
             <input type="number" min="0" max="23" id="cueprobID" required placeholder="0" /> <label>Pro tip: Ask for this number! =)</label>
         </fieldset><br /><br />
         <input type="submit" value="Submit" />
     </form>
-    
+
 </body>
 </html>
