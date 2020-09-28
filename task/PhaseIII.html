@@ -89,10 +89,10 @@
                 randP[nB] = new Array(numTrial);
                 uniqP[nB] = new Array(numTrial);
                 for (nT = 0; nT < numTrial; nT++) {
-                    cueInd[nB][nT] = randIndTest2[seqID * numBlock + nB][nT]; // select randomized index
+                    cueInd[nB][nT] = randIndTest3[seqID * numBlock + nB][nT]; // select randomized index
 
                     randP[nB][nT] = Math.round(Math.random() * 10000) / 10000; // generates random number between 0(inclusive) and 1 (exclusive)
-                    uniqP[nB][nT] = uniqProb[indProbTest2[cueProbID][cueInd[nB][nT]]];
+                    uniqP[nB][nT] = uniqProb[indProbTest3[cueProbID][cueInd[nB][nT]]];
                     if (randP[nB][nT] < uniqP[nB][nT]) { // select response sequence based on cue probability
                         seqResp[nB][nT] = 1;
                     } else {

@@ -55,10 +55,10 @@ body {
     position:absolute;
 	top: 50%;
 	left: 75%;
-	width: 307px;
-	height: 307px;
-	margin-top: -153px; /*set to a negative number 1/2 of your height*/
-	margin-left: -153px; /*set to a negative number 1/2 of your width*/
+	width: 450px;
+	height: 450px;
+	margin-top: -225px; /*set to a negative number 1/2 of your height*/
+	margin-left: -225px; /*set to a negative number 1/2 of your width*/
 	text-align: center;
 	vertical-align: middle;
 	z-index: -1;
@@ -68,10 +68,10 @@ body {
     position:absolute;
 	top: 50%;
 	left: 25%;
-	width: 307px;
-	height: 307px;
-	margin-top: -153px; /*set to a negative number 1/2 of your height*/
-	margin-left: -153px; /*set to a negative number 1/2 of your width*/
+	width: 450px;
+	height: 450px;
+	margin-top: -225px; /*set to a negative number 1/2 of your height*/
+	margin-left: -225px; /*set to a negative number 1/2 of your width*/
 	text-align: center;
 	vertical-align: middle;
 	z-index: -1;
