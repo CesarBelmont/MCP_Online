@@ -18,7 +18,17 @@
             else
                 return results[1];
         }*/
-
+        //Prevent user from using F12 key and inspect element
+        $(document).keydown(function (event) {
+            if (event.keyCode == 123) {
+                return false;
+            } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                return false;
+            }
+        });
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
         $(document).ready(function() {
             // TEST PHASE with 480 TRIALS WITH PROBABILISTIC FEEDBACK
             // initialize experiment
@@ -146,7 +156,7 @@
                     $("#indicator").show();
                     $("#StartExpButton").show();
                 } else {
-                    $("#indicator").text("Please do not copy & paste this link to your web browser. In order to do this task properly, close this page and restart by clicking the link on MTurk.");
+                    $("#indicator").text("Please do not copy & paste this link to your web browser. In order to do this task properly, close this page and restart by clicking the link.");
                     $("#indicator").show();
                 }
             }

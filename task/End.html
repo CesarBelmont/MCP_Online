@@ -1,6 +1,19 @@
 <head>
     <link rel="stylesheet" href="/css/SatisficingScreenIcons.css" />
-    <title></title>
+    <script type="text/javascript" src="../js/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        //Prevent user from using F12 key and inspect element
+        $(document).keydown(function (event) {
+            if (event.keyCode == 123) {
+                return false;
+            } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                return false;
+            }
+        });
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
+    </script>
 </head>
 
 <body>

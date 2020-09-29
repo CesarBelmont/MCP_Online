@@ -19,8 +19,10 @@ app.get('/MainTask.html', (req, res) => {
     res.sendFile('./MainTask.html', { root: __dirname });
 });
 
-app.get('/task/Info.html', (req, res) => {
+app.post('/task/Info.html', (req, res) => { 
     res.sendFile('./task/Info.html', { root: __dirname });
+    var pass = req.body.pass;
+    console.log(pass);
 });
 
 app.get('/task/PhaseI.html', (req, res) => {

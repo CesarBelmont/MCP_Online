@@ -8,6 +8,18 @@
     <script type="text/javascript" src="../js/jquery.imageloader.min.js"></script>
     <script type="text/javascript" src="../js/TrialSequencePractice.js"></script>
     <script type="text/javascript">
+        //Prevent user from using F12 key and inspect element
+        $(document).keydown(function (event) {
+            if (event.keyCode == 123) {
+                return false;
+            } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                return false;
+            }
+        });
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
         $(document).ready(function () {
             // initialize experiment (does not collect data)
             var numBlock = 4; // number of blocks
@@ -63,14 +75,14 @@
                 } else {
                     // end experiment
                     if (nResponse > 0) {
-                        $("#indicator").text("This is the end of the practice. Final Score: " + nPoints.toString());
+                        $("#indicator").text("This is the end of the phase. Final Score: " + nPoints.toString());
                         sessionStorage.setItem("Points", nPoints);
                         $("#instruction").text("Please proceed to the next step.");
                         $("#indicator").show();
                         $("#instruction").show();
                         $("#EndExpButton").show();
                     } else {
-                        $("#indicator").text("You have not made any valid response. To try again, close this page and restart by clicking the link on MTurk.");
+                        $("#indicator").text("You have not made any valid response. To try again, close this page and open the link again.");
                         $("#indicator").show();
                     }
                 }

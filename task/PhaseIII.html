@@ -8,6 +8,17 @@
     <script type="text/javascript" src="../js/jquery.imageloader.min.js"></script>
     <script type="text/javascript" src="../js/TrialSequenceCT_Icons.js"></script>
     <script type="text/javascript">
+        //Prevent user from using F12 key and inspect element
+        $(document).keydown(function (event) {
+            if (event.keyCode == 123) {
+                return false;
+            } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                return false;
+            }
+        });
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
         function gup(name, tmpURL) {
             var regexS = "[\\?&]" + name + "=([^&#]*)";
             var regex = new RegExp(regexS);
@@ -78,10 +89,10 @@
                 randP[nB] = new Array(numTrial);
                 uniqP[nB] = new Array(numTrial);
                 for (nT = 0; nT < numTrial; nT++) {
-                    cueInd[nB][nT] = randIndTest2[seqID * numBlock + nB][nT]; // select randomized index
+                    cueInd[nB][nT] = randIndTest3[seqID * numBlock + nB][nT]; // select randomized index
 
                     randP[nB][nT] = Math.round(Math.random() * 10000) / 10000; // generates random number between 0(inclusive) and 1 (exclusive)
-                    uniqP[nB][nT] = uniqProb[indProbTest2[cueProbID][cueInd[nB][nT]]];
+                    uniqP[nB][nT] = uniqProb[indProbTest3[cueProbID][cueInd[nB][nT]]];
                     if (randP[nB][nT] < uniqP[nB][nT]) { // select response sequence based on cue probability
                         seqResp[nB][nT] = 1;
                     } else {
