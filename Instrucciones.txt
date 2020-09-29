@@ -5,3 +5,27 @@ Una vez dentro de la consola escribe "npm install" (debes de tener node js insta
 Cuando se termine de instalar todo ejecuta "node server"
 
 Abre el navegador y ve a la direccion "localhost:8080"
+
+
+Instructions:
+
+1.While having this folder open in the widows file explorer, type in the address bar:
+
+	cmd
+
+Then press enter. This will open up the console (black window with white font).
+
+2.Once inside the console, write (node js should have been installed previously):
+
+	npm install
+
+3.After it finishes installing, write:
+
+	node server
+
+4.A message saying "ready in port 8080" will appear. Now open the web browser (any
+of them works). In the address bar type:
+
+	localhost:8080
+
+That should launch the experiment.

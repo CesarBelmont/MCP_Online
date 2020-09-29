@@ -18,8 +18,8 @@
     </script>
     <script>
         function info() {
-            var length = 8,
-                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+            var length = 4,
+                charset = "0123456789",
                 retVal = "";
             for (var i = 0, n = charset.length; i < length; ++i) {
                 retVal += charset.charAt(Math.floor(Math.random() * n));
@@ -81,7 +81,7 @@
                         <input type="submit" style="font-family: arial; color: black; font-size: 24px;" id="userData" name="userData" value="Click to fill the info" onclick="info()" />
                         <!--<button id="userData" style="font-family: arial; color: black; font-size: 24px;" onclick="info()">Click to fill the info</button>-->
                     </form>
-                    <button id="startPractice" style="font-family: arial; color: black; font-size: 24px;" onclick="practice()">Click here to start a practice session</button>
+                    <button id="startPractice" style="font-family: arial; color: black; font-size: 24px;" onclick="practice()">Click here to start the experiment</button>
                     <button id="startPhase1" style="font-family: arial; color: black; font-size: 24px;" onclick="phase1()">Click here to start</button>
                     <button id="startPhase2" style="font-family: arial; color: black; font-size: 24px;" onclick="phase2()">Click here to start</button>
                     <form action="/task/End.html" method="post">

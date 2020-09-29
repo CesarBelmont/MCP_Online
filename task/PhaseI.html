@@ -75,14 +75,14 @@
                 } else {
                     // end experiment
                     if (nResponse > 0) {
-                        $("#indicator").text("This is the end of the practice. Final Score: " + nPoints.toString());
+                        $("#indicator").text("This is the end of the phase. Final Score: " + nPoints.toString());
                         sessionStorage.setItem("Points", nPoints);
                         $("#instruction").text("Please proceed to the next step.");
                         $("#indicator").show();
                         $("#instruction").show();
                         $("#EndExpButton").show();
                     } else {
-                        $("#indicator").text("You have not made any valid response. To try again, close this page and restart by clicking the link on MTurk.");
+                        $("#indicator").text("You have not made any valid response. To try again, close this page and open the link again.");
                         $("#indicator").show();
                     }
                 }
