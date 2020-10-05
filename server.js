@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', (req, res) => {
-    res.sendFile('./MainTask.html', { root: __dirname });
+    res.sendFile('./Team.html', { root: __dirname });
 });
 
 app.get('/MainTask.html', (req, res) => {
@@ -112,8 +112,13 @@ app.post('/task/End.html', (req, res) => {
         };
     }
 
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth()+1;
+    var year = date.getFullYear();
+
     let file = [];
-    fs.writeFile('./Data/data.json', JSON.stringify(file), function (err) {
+    fs.writeFileSync('./Data/data.json', JSON.stringify(file), function (err) {
         if (err) throw err;
     });
 
@@ -128,7 +133,7 @@ app.post('/task/End.html', (req, res) => {
         fs.writeFileSync('./Data/data.json', JSON.stringify(json, null, 2), function (err) {
             if (err) throw err;
         });
-        fs.copyFile('./Data/data.json', './Data/' + id + '.json', function (err) {
+        fs.copyFileSync('./Data/data.json', './Data/' + id + '_'+day+'_'+month+'_'+year+'.json', function (err) {
             if (err) throw err;
         });
         fs.unlink('./Data/data.json', function (err) {

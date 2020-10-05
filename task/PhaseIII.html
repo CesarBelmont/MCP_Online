@@ -19,6 +19,7 @@
         $(document).on("contextmenu", function (e) {
             e.preventDefault();
         });
+
         function gup(name, tmpURL) {
             var regexS = "[\\?&]" + name + "=([^&#]*)";
             var regex = new RegExp(regexS);
@@ -392,7 +393,7 @@
         <tr>
             <td>
                 <p id="indicator" style="font-family:arial;color:white;font-size:48px;"></p>
-                <p id="initialize" style="font-family:arial;color:white;font-size:48px;">loading... please wait.</p>
+                <p id="initialize" style="font-family:arial;color:white;font-size:48px;"></p>
                 <p id="instruction" style="font-family:arial;color:white;font-size:48px;">Press "x" = left & "m" = right.</p>
                 <p id="etc" style="font-family:arial;color:black;font-size:48px;"></p>
                 <button id="StartExpButton" style="font-family:arial;color:black;font-size:24px;">I understand</button>

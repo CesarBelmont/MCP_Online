@@ -1,0 +1,76 @@
+<html>
+<head>
+    <style>
+        .animal {
+            width: 250px;
+            height: 250px;
+        }
+
+        .print {
+            width: 100px;
+            height: 100px;
+        }
+
+        table {
+            text-align: center;
+            margin: inherit;
+        }
+
+        th {
+            padding: 25px;
+        }
+
+        .divisions {
+            margin: 5rem;
+        }
+
+        body {
+            background-color: whitesmoke;
+        }
+
+        .header {
+            text-align: center;          
+        }
+
+        button {
+            width: 100px;
+            height: 75px;
+        }
+    </style>
+    <script>
+        function mainTask() {
+            window.location.href = "/MainTask.html";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="margin: 50px">Please choose a division</h1>
+        </div>
+        <div class="divisions">
+            <table>
+                <tr>
+                    <th><img class="animal" src="/img/Goat.jpeg"></th>
+                    <th><img class="animal" src="/img/Bear.jpeg"></th>
+                    <th><img class="animal" src="/img/Horse.jpeg"></th>
+                    <th><img class="animal" src="/img/Elephant.jpeg"></th>
+                </tr>
+                <tr>
+                    <td><button onclick="mainTask()">Goat League</button></td>
+                    <td><button onclick="mainTask()">Bear League</button></td>
+                    <td><button onclick="mainTask()">Horse League</button></td>
+                    <td><button onclick="mainTask()">Elephant League</button></td>
+                </tr>
+                <tr>
+                    <td><img class="print" src="/img/GoatFootPrint.jpeg"></td>
+                    <td><img class="print" src="/img/BearFootPrint.jpeg"></td>
+                    <td><img class="print" src="/img/HorseFootPrint.jpeg"></td>
+                    <td><img class="print" src="/img/ElephantFootPrint.jpeg"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body></html>
+
