@@ -3,12 +3,14 @@ const app = express();
 var path = require('path');
 const port = 8080;
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/task')));
 app.use('/task/Stimuli', express.static(__dirname + '/task/Stimuli'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
@@ -41,31 +43,32 @@ app.post('/task/End.html', (req, res) => {
 
     res.sendFile('./task/End.html', { root: __dirname });
     var fs = require('fs');
-    var id = req.body.id;
-    var finalScore = req.body.finalscore;
-    var cueprobID = req.body.cueprobID;
-    var action1 = (req.body.action1).split(",");
-    var decision1 = (req.body.decision1).split(",");
-    var responseT1 = (req.body.responseT1).split(",");
-    var cuesL = (req.body.cuesL).split(",");
-    var cuesR = (req.body.cuesR).split(",");
-    var seqID = req.body.seqID;
-    var action2 = (req.body.action2).split(",");
-    var decision2 = (req.body.decision2).split(",");
-    var responseT2 = (req.body.responseT2).split(",");
-    var cuetestL = (req.body.cuetestL).split(",");
-    var cuetestR = (req.body.cuetestR).split(",");
-    var action3 = (req.body.action3).split(",");
-    var decision3 = (req.body.decision3).split(",");
-    var responseT3 = (req.body.responseT3).split(",");
-    var cuetestL2 = (req.body.cuetestL2).split(",");
-    var cuetestR2 = (req.body.cuetestR2).split(",");
-    var trial = (req.body.Trial).split(",");
-    var trial2 = (req.body.Trial2).split(",");
-    var trial3 = (req.body.Trial3).split(",");
+    var id = req.cookies['userID'];
+    var finalScore = req.cookies['Points'];
+    var cueprobID = req.cookies['cueProb'];
+    var action1 = JSON.parse(req.cookies['action1']);
+    var decision1 = JSON.parse(req.cookies['decision1']);
+    var responseT1 = JSON.parse(req.cookies['responseT1']);
+    var cuesL = JSON.parse(req.cookies['cuesL']);
+    var cuesR = JSON.parse(req.cookies['cuesR']);
+    var seqID = req.cookies['seqID'];
+    var action2 = JSON.parse(req.cookies['action2']);
+    var decision2 = JSON.parse(req.cookies['decision2']);
+    var responseT2 = JSON.parse(req.cookies['responseT2']);
+    var cuetestL = JSON.parse(req.cookies['CueTestL']);
+    var cuetestR = JSON.parse(req.cookies['CueTestR']);
+    var action3 = JSON.parse(req.cookies['action3']);
+    var decision3 = JSON.parse(req.cookies['decision3']);
+    var responseT3 = JSON.parse(req.cookies['responseT3']);
+    var cuetestL2 = JSON.parse(req.cookies['CueTestL2']);
+    var cuetestR2 = JSON.parse(req.cookies['CueTestR2']);
+    var trial = JSON.parse(req.cookies['Trial']);
+    var trial2 = JSON.parse(req.cookies['Trial2']);
+    var trial3 = JSON.parse(req.cookies['Trial3']);
     var datap1 = [];
     var datap2 = [];
     var datap3 = [];
+    
     for (i = 0; i < action1.length; i++) {
         datap1[i] = {
             "trial": trial[i],
@@ -110,6 +113,7 @@ app.post('/task/End.html', (req, res) => {
             "CuesR": cuetestR2[i],
             "Phase": 3
         };
+        
     }
 
     var date = new Date();

@@ -8,16 +8,6 @@
     <script type="text/javascript" src="../js/jquery.imageloader.min.js"></script>
     <script type="text/javascript" src="../js/TrialSequenceCT_Icons.js"></script>
     <script type="text/javascript">
-        /*function gup( name, tmpURL )
-        {
-            var regexS = "[\\?&]"+name+"=([^&#]*)";
-            var regex = new RegExp( regexS );
-            var results = regex.exec( tmpURL );
-            if( results == null )
-                return "";
-            else
-                return results[1];
-        }*/
         //Prevent user from using F12 key and inspect element
         $(document).keydown(function (event) {
             if (event.keyCode == 123) {
@@ -29,6 +19,7 @@
         $(document).on("contextmenu", function (e) {
             e.preventDefault();
         });
+
         $(document).ready(function() {
             // TEST PHASE with 480 TRIALS WITH PROBABILISTIC FEEDBACK
             // initialize experiment
@@ -52,17 +43,17 @@
             var handleContainerR = document.getElementById('ContainerR');
             var handleTimeout = 0;
             var nPoints = 0;
-            var cumPoints = parseInt(sessionStorage.getItem("Points"), 10);
-            var cueProbID = parseInt(sessionStorage.getItem("cueProb"), 10); // get ID for cue probability
+            var cumPoints = parseInt(getCookie("Points"));
+            var cueProbID = getCookie("cueProb");// get ID for cue probability
             var seqID = Math.floor(Math.random() * 10); // get pseudo-randomized sequence ID
-            sessionStorage.setItem("seqID", seqID);
+            document.cookie = "seqID=" + seqID + "; ";
             var actionList = [];
             var decisionList = [];
             var responseTime = [];
             var phaseIIL = [];
             var phaseIIR = [];
             var Trial2 = [] 
-            var count = parseInt(sessionStorage.getItem("Count"), 10);
+            var count = getCookie("Count");
  
             data = [
                 ['']
@@ -137,20 +128,10 @@
                 dataAll.unshift(["Points", nPoints, "cueProbID", cueProbID, "seqID", seqID]); // record performance & parameter ID
             });
 
+            
+
             function initExp() {
                 var flag = true;
-
-                /*if (typeof window.opener != 'undefined') {
-                    var aId = gup('assignmentId', window.opener.document.referrer);
-                    if (aId == "ASSIGNMENT_ID_NOT_AVAILABLE" || aId == "") {
-                        //flag = false;
-                    } else {
-                        flag = true;
-                    }
-                } else {
-                     flag = false;
-                }*/
-
                 if (flag) {
                     $("#indicator").text("Again, your goal is to collect as many points as possible. You will have max 15 seconds to respond.");
                     $("#indicator").show();
@@ -167,7 +148,6 @@
                     data = [
                         [""]
                     ]
-                    //data = [['Result',"Cue Number","Random Number","Probability of Cue","Response","Time of Response","Response"]]; // updated in every block
                     countTrial = -1; // reset counter
                     flagResponse = -1; // reset response flag
                     nCorrect = 0; // reset response
@@ -179,7 +159,7 @@
                     $("#etc").text('Your total score: ' + (nPoints + cumPoints).toString() + ' points');
                     $("#etc").show();
                     var finalPoints = nPoints + cumPoints;
-                    sessionStorage.setItem("Points", finalPoints);
+                    document.cookie = "Points=" + finalPoints + "; ";
                     $("#indicator").text('This is the end of the Phase II.');
                     $("#instruction").text('Please proceed to the Fast Phase.');
                     $("#indicator").show();
@@ -196,12 +176,12 @@
                     $("#ContainerR").html(imgs[cuesTestR[cueInd[countBlock][countTrial]]].img);
                     phaseIIL.push(cuesTestL[cueInd[countBlock][countTrial]]);
                     phaseIIR.push(cuesTestR[cueInd[countBlock][countTrial]]);
-                    sessionStorage.setItem("CueTestL", phaseIIL);
-                    sessionStorage.setItem("CueTestR", phaseIIR);
+                    document.cookie = "CueTestL=" + JSON.stringify(phaseIIL) + "; ";
+                    document.cookie = "CueTestR=" + JSON.stringify(phaseIIR) + "; ";
                     count++;
                     Trial2.push(count);
-                    sessionStorage.setItem("Count", count);
-                    sessionStorage.setItem("Trial2", Trial2);  
+                    document.cookie = "Count=" + count + "; ";
+                    document.cookie = "Trial2=" + JSON.stringify(Trial2) + "; ";
                     flagResponse = 0;
                     handleTimeout = setTimeout(showFixation, tRW); // response window
                 } else { // end run
@@ -248,13 +228,13 @@
                     actionList.push("TimeOut");
                     decisionList.push("TimeOut");
                     responseTime.push(15000);
-                    sessionStorage.setItem("responseT2", responseTime);
-                    sessionStorage.setItem("action2", actionList);
-                    sessionStorage.setItem("decision2", decisionList);
+                    document.cookie = "action2=" + JSON.stringify(actionList) + "; ";
+                    document.cookie = "decision2=" + JSON.stringify(decisionList) + "; ";
+                    document.cookie = "responseT2=" + JSON.stringify(responseTime) + "; "; 
                     count++;
                     Trial2.push(count);
-                    sessionStorage.setItem("Count", count);
-                    sessionStorage.setItem("Trial2", Trial2); 
+                    document.cookie = "Count=" + count + "; ";
+                    document.cookie = "Trial2=" + JSON.stringify(Trial2) + "; ";
                     data[countTrial] = ["N", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial]]; // if no response, record time with response = 0
                     nInvalid++;
                 }
@@ -286,7 +266,6 @@
             function showFixation1() {
                 handleContainerL.innerHTML = "";
                 handleContainerR.innerHTML = "";
-                //$("#indicator").css('color','FFFFFF');
                 $("#indicator").text('+');
                 $("#indicator").show();
                 handleTimeout = setTimeout(runTrial, 1000);
@@ -304,39 +283,39 @@
                         showFeedback(3); // if RT < 150 ms, too fast
                         actionList.push("TooFast");
                         decisionList.push("TooFast");
-                        sessionStorage.setItem("action2", actionList);
-                        sessionStorage.setItem("decision2", decisionList);
+                        document.cookie = "action2=" + JSON.stringify(actionList) + "; ";
+                        document.cookie = "decision2=" + JSON.stringify(decisionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT2", responseTime);
+                        document.cookie = "responseT2=" + JSON.stringify(responseTime) + "; "; 
                     } else if ((seqResp[countBlock][countTrial] == 1 && ans == 'x') || (seqResp[countBlock][countTrial] == 2 && ans == 'm')) {
                         nCorrect++;
                         nPoints = nPoints + 1;
                         data[countTrial] = ["Correct response", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(1); // correct response
                         actionList.push("Correct");
-                        sessionStorage.setItem("action2", actionList);
+                        document.cookie = "action2=" + JSON.stringify(actionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT2", responseTime);
+                        document.cookie = "responseT2=" + JSON.stringify(responseTime) + "; "; 
                         if (ans == 'x') {
                             decisionList.push("1");
-                            sessionStorage.setItem("decision2", decisionList);
+                            document.cookie = "decision2=" + JSON.stringify(decisionList) + "; ";
                         } else {
                             decisionList.push("0");
-                            sessionStorage.setItem("decision2", decisionList);
+                            document.cookie = "decision2=" + JSON.stringify(decisionList) + "; ";
                         }
                     } else if ((seqResp[countBlock][countTrial] == 2 && ans == 'x') || (seqResp[countBlock][countTrial] == 1 && ans == 'm')) {
                         data[countTrial] = ["Incorrect response", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(2); // incorrect response
                         actionList.push("Incorrect");
-                        sessionStorage.setItem("action2", actionList);
+                        document.cookie = "action2=" + JSON.stringify(actionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT2", responseTime);
+                        document.cookie = "responseT2=" + JSON.stringify(responseTime) + "; "; 
                         if (ans == 'x') {
                             decisionList.push("1");
-                            sessionStorage.setItem("decision2", decisionList);
+                            document.cookie = "decision2=" + JSON.stringify(decisionList) + "; ";
                         } else {
                             decisionList.push("0");
-                            sessionStorage.setItem("decision2", decisionList);
+                            document.cookie = "decision2=" + JSON.stringify(decisionList) + "; ";
                         }
                     } else {
                         nInvalid++;
@@ -344,20 +323,16 @@
                         showFeedback(5); // error! wrong button press
                         actionList.push("WrongButton");
                         decisionList.push("WrongButton");
-                        sessionStorage.setItem("action2", actionList);
-                        sessionStorage.setItem("decision2", decisionList);
+                        document.cookie = "action2=" + JSON.stringify(actionList) + "; ";
+                        document.cookie = "decision2=" + JSON.stringify(decisionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT2", responseTime);
+                        document.cookie = "responseT2=" + JSON.stringify(responseTime) + "; "; 
                     }
                 }
             });
 
             ///Function To stop backspace presses 8, and spaces 32
             $(function() {
-                /*
-                 * this swallows backspace keys on any non-input element.
-                 * stops backspace -> back
-                 */
                 var rx = /INPUT|SELECT|TEXTAREA/i;
 
                 $(document).bind("keydown keypress", function(e) {
@@ -376,6 +351,21 @@
             sessionStorage.setItem("Stage", 3);
         }
 
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
     </script>
 </head>
 

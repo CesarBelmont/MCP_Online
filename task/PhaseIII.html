@@ -53,16 +53,16 @@
             var handleContainerR = document.getElementById('ContainerR');
             var handleTimeout = 0;
             var nPoints = 0;
-            var cumPoints = parseInt(sessionStorage.getItem("Points"), 10); // get cumulative points //recuperar los puntos
-            var cueProbID = parseInt(sessionStorage.getItem("cueProb"), 10); // get ID for cue probability
-            var seqID = parseInt(sessionStorage.getItem("seqID"), 10); // get pseudo-randomized sequence ID
+            var cumPoints = parseInt(getCookie("Points")); // get cumulative points 
+            var cueProbID = getCookie("cueProb"); // get ID for cue probability
+            var seqID =getCookie("seqID"); // get pseudo-randomized sequence ID
             var actionList = [];
             var decisionList = [];
             var responseTime = [];
             var phaseIIIL = [];
             var phaseIIIR = [];
             var Trial3 = [];
-            var count = parseInt(sessionStorage.getItem("Count"), 10);
+            var count = getCookie("Count");
 
 
             data = [
@@ -135,26 +135,10 @@
 
             $("#EndExpButton").click(function () {
                 dataAll.unshift(["Points", nPoints, "cueProbID", cueProbID, "seqID", seqID]); // record performance & parameter ID
-                //$("#DataP2", opener.window.document).val(dataAll.join(";"));
-                //opener.updateCumPoints(nPoints + cumPoints);
-                //opener.updateMainMenu(6);
-                //JavaScript:window.close();
             });
 
             function initExp() {
                 var flag = true;
-
-                //if (typeof window.opener != 'undefined') {
-                //	var aId = gup('assignmentId', window.opener.document.referrer);
-                //	if (aId == "ASSIGNMENT_ID_NOT_AVAILABLE" || aId == "") {
-                //		//flag = false;
-                //	} else {
-                //		flag = true;
-                //	}
-                //} else {
-                //	 flag = false;
-                //}
-
                 if (flag) {
                     $("#indicator").text("One more time, your goal is to win as many trials as possible.");
                     $("#indicator").show();
@@ -179,8 +163,8 @@
                     runCountdown(5); // countdown for the experiment
                 } else {
                     var finalPoints = nPoints + cumPoints;
-                    $("#etc").text('Your total score: ' + finalPoints.toString() + ' points');  
-                    sessionStorage.setItem("Points", finalPoints);
+                    $("#etc").text('Your total score: ' + finalPoints.toString() + ' points');                    
+                    document.cookie = "Points=" + finalPoints + ";";
                     $("#etc").show();
                     // end experiment
                     $("#indicator").text('This is the end of the experiment.');
@@ -199,11 +183,12 @@
                     $("#ContainerR").html(imgs[cuesTestR[cueInd[countBlock][countTrial]]].img);
                     phaseIIIL.push(cuesTestL[cueInd[countBlock][countTrial]]);
                     phaseIIIR.push(cuesTestR[cueInd[countBlock][countTrial]]);
-                    sessionStorage.setItem("CueTestL2", phaseIIIL);
-                    sessionStorage.setItem("CueTestR2", phaseIIIR);
+                    document.cookie = "CueTestL2=" + JSON.stringify(phaseIIIL) + ";";
+                    document.cookie = "CueTestR2=" + JSON.stringify(phaseIIIR) + ";";
                     count++;
                     Trial3.push(count);
-                    sessionStorage.setItem("Trial3", Trial3);
+                    document.cookie = "Count=" + count + ";";
+                    document.cookie = "Trial3=" + JSON.stringify(Trial3) + ";";
                     flagResponse = 0;
                     handleTimeout = setTimeout(showFixation, tRW); // response window
                 } else { // end run
@@ -253,12 +238,13 @@
                     actionList.push("TimeOut");
                     decisionList.push("TimeOut");
                     responseTime.push(15000);
-                    sessionStorage.setItem("responseT3", responseTime);
-                    sessionStorage.setItem("action3", actionList);
-                    sessionStorage.setItem("decision3", decisionList);
+                    document.cookie = "action3=" + JSON.stringify(actionList) + ";";
+                    document.cookie = "decision3=" + JSON.stringify(decisionList) + ";";
+                    document.cookie = "responseT3=" + JSON.stringify(responseTime) + ";"; 
                     count++;
                     Trial3.push(count);
-                    sessionStorage.setItem("Trial3", Trial3);  
+                    document.cookie = "Count=" + count + ";";
+                    document.cookie = "Trial3=" + JSON.stringify(Trial3) + ";";
                     data[countTrial] = ["N", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial]]; // if no response, record time with response = 0
                     nInvalid++;
                 }
@@ -271,8 +257,6 @@
                 handleContainerR.innerHTML = "";
                 clearTimeout(handleTimeout);
                 if (feedbackType == 1) {
-                    //$("#indicator").css('color','00CC00');
-                    //$("#indicator").text('+');
                     $("#indicator").text('win');
                     $("#indicator").show();
                 } else if (feedbackType == 2) {
@@ -308,39 +292,39 @@
                         showFeedback(3); // if RT < 150 ms, too fast
                         actionList.push("TooFast");
                         decisionList.push("TooFast");
-                        sessionStorage.setItem("action3", actionList);
-                        sessionStorage.setItem("decision3", decisionList);
+                        document.cookie = "action3=" + JSON.stringify(actionList) + ";";
+                        document.cookie = "decision3=" + JSON.stringify(decisionList) + ";";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT3", responseTime);
+                        document.cookie = "responseT3=" + JSON.stringify(responseTime) + ";"; 
                     } else if ((seqResp[countBlock][countTrial] == 1 && ans == 'x') || (seqResp[countBlock][countTrial] == 2 && ans == 'm')) {
                         nCorrect++;
                         nPoints = nPoints + 1;
                         data[countTrial] = ["W", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(1); // correct response
                         actionList.push("Correct");
-                        sessionStorage.setItem("action3", actionList);
+                        document.cookie = "action3=" + JSON.stringify(actionList) + ";";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT3", responseTime);
+                        document.cookie = "responseT3=" + JSON.stringify(responseTime) + ";"; 
                         if (ans == 'x') {
                             decisionList.push("1");
-                            sessionStorage.setItem("decision3", decisionList);
+                            document.cookie = "decision3=" + JSON.stringify(decisionList) + ";";
                         } else {
                             decisionList.push("0");
-                            sessionStorage.setItem("decision3", decisionList);
+                            document.cookie = "decision3=" + JSON.stringify(decisionList) + ";";
                         }
                     } else if ((seqResp[countBlock][countTrial] == 2 && ans == 'x') || (seqResp[countBlock][countTrial] == 1 && ans == 'm')) {
                         data[countTrial] = ["L", cueInd[countBlock][countTrial], randP[countBlock][countTrial], uniqP[countBlock][countTrial], seqResp[countBlock][countTrial], d2.getTime() - d1.getTime(), ans]; // record [RT, key]
                         showFeedback(2); // incorrect response
                         actionList.push("Incorrect");
-                        sessionStorage.setItem("action3", actionList);
+                        document.cookie = "action3=" + JSON.stringify(actionList) + ";";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT3", responseTime);
+                        document.cookie = "responseT3=" + JSON.stringify(responseTime) + ";"; 
                         if (ans == 'z') {
                             decisionList.push("1");
-                            sessionStorage.setItem("decision3", decisionList);
+                            document.cookie = "decision3=" + JSON.stringify(decisionList) + ";";
                         } else {
                             decisionList.push("0");
-                            sessionStorage.setItem("decision3", decisionList);
+                            document.cookie = "decision3=" + JSON.stringify(decisionList) + ";";
                         }
                     } else {
                         nInvalid++;
@@ -348,20 +332,16 @@
                         showFeedback(5); // error! wrong button press
                         actionList.push("WrongButton");
                         decisionList.push("WrongButton");
-                        sessionStorage.setItem("action3", actionList);
-                        sessionStorage.setItem("decision3", decisionList);
+                        document.cookie = "action3=" + JSON.stringify(actionList) + ";";
+                        document.cookie = "decision3=" + JSON.stringify(decisionList) + ";";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT3", responseTime);
+                        document.cookie = "responseT3=" + JSON.stringify(responseTime) + ";"; 
                     }
                 }
             });
 
             ///Function To stop backspace presses 8, and spaces 32
             $(function () {
-                /*
-                 * this swallows backspace keys on any non-input element.
-                 * stops backspace -> back
-                 */
                 var rx = /INPUT|SELECT|TEXTAREA/i;
 
                 $(document).bind("keydown keypress", function (e) {
@@ -381,6 +361,21 @@
             
         }
 
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
     </script>
 </head>
 

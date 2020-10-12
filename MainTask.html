@@ -24,7 +24,8 @@
             for (var i = 0, n = charset.length; i < length; ++i) {
                 retVal += charset.charAt(Math.floor(Math.random() * n));
             }
-            sessionStorage.setItem("Password", retVal);
+            //sessionStorage.setItem("Password", retVal);
+            document.cookie = "pass=" + retVal + ";max-age=120;";
             document.getElementById("pass").value = retVal;
 
         }
@@ -38,31 +39,6 @@
 
         function phase2() {
             window.location.href = "task/PhaseIII.html";
-        }
-
-        function addData() {
-            document.getElementById("id").value = sessionStorage.getItem("userID");
-            document.getElementById("finalscore").value = sessionStorage.getItem("Points");
-            document.getElementById("cueprobID").value = sessionStorage.getItem("cueProb");
-            document.getElementById("action1").value = sessionStorage.getItem("action1");
-            document.getElementById("decision1").value = sessionStorage.getItem("decision1");
-            document.getElementById("responseT1").value = sessionStorage.getItem("responseT1");
-            document.getElementById("cuesL").value = sessionStorage.getItem("cuesL");
-            document.getElementById("cuesR").value = sessionStorage.getItem("cuesR");
-            document.getElementById("seqID").value = sessionStorage.getItem("seqID");
-            document.getElementById("action2").value = sessionStorage.getItem("action2");
-            document.getElementById("decision2").value = sessionStorage.getItem("decision2");
-            document.getElementById("responseT2").value = sessionStorage.getItem("responseT2");
-            document.getElementById("cuetestL").value = sessionStorage.getItem("CueTestL");
-            document.getElementById("cuetestR").value = sessionStorage.getItem("CueTestR");
-            document.getElementById("action3").value = sessionStorage.getItem("action3");
-            document.getElementById("decision3").value = sessionStorage.getItem("decision3");
-            document.getElementById("responseT3").value = sessionStorage.getItem("responseT3");
-            document.getElementById("cuetestL2").value = sessionStorage.getItem("CueTestL2");
-            document.getElementById("cuetestR2").value = sessionStorage.getItem("CueTestR2");
-            document.getElementById("Trial").value = sessionStorage.getItem("Trial");
-            document.getElementById("Trial2").value = sessionStorage.getItem("Trial2");
-            document.getElementById("Trial3").value = sessionStorage.getItem("Trial3");
         }
 
     </script>
@@ -85,29 +61,7 @@
                     <button id="startPhase1" style="font-family: arial; color: black; font-size: 24px;" onclick="phase1()">Click here to start</button>
                     <button id="startPhase2" style="font-family: arial; color: black; font-size: 24px;" onclick="phase2()">Click here to start</button>
                     <form action="/task/End.html" method="post">
-                        <input type="text" name="id" id="id" style="display:none" />
-                        <input type="text" name="finalscore" id="finalscore" style="display:none" />
-                        <input type="text" name="cueprobID" id="cueprobID" style="display:none" />
-                        <input type="text" name="action1" id="action1" style="display:none" />
-                        <input type="text" name="decision1" id="decision1" style="display:none" />
-                        <input type="text" name="responseT1" id="responseT1" style="display:none" />
-                        <input type="text" name="cuesL" id="cuesL" style="display:none" />
-                        <input type="text" name="cuesR" id="cuesR" style="display:none" />
-                        <input type="text" name="seqID" id="seqID" style="display:none" />
-                        <input type="text" name="action2" id="action2" style="display:none" />
-                        <input type="text" name="decision2" id="decision2" style="display:none" />
-                        <input type="text" name="responseT2" id="responseT2" style="display:none" />
-                        <input type="text" name="cuetestL" id="cuetestL" style="display:none" />
-                        <input type="text" name="cuetestR" id="cuetestR" style="display:none" />
-                        <input type="text" name="action3" id="action3" style="display:none" />
-                        <input type="text" name="decision3" id="decision3" style="display:none" />
-                        <input type="text" name="responseT3" id="responseT3" style="display:none" />
-                        <input type="text" name="cuetestL2" id="cuetestL2" style="display:none" />
-                        <input type="text" name="cuetestR2" id="cuetestR2" style="display:none" />
-                        <input type="text" name="Trial" id="Trial" style="display:none" />
-                        <input type="text" name="Trial2" id="Trial2" style="display:none" />
-                        <input type="text" name="Trial3" id="Trial3" style="display:none" />
-                        <input type="submit" value="Submit" id="submit" onclick="addData()" />
+                        <input type="submit" value="Submit" id="submit" />
                     </form>
 
                 </td>

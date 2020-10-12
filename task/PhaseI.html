@@ -76,7 +76,7 @@
                     // end experiment
                     if (nResponse > 0) {
                         $("#indicator").text("This is the end of the phase. Final Score: " + nPoints.toString());
-                        sessionStorage.setItem("Points", nPoints);
+                        document.cookie ="Points="+ nPoints+";max-age=1200";
                         $("#instruction").text("Please proceed to the next step.");
                         $("#indicator").show();
                         $("#instruction").show();
@@ -97,12 +97,12 @@
                     flagResponse = 0;                    
                     phaseIL.push(cuesL[countTrial]);
                     phaseIR.push(cuesR[countTrial]);
-                    sessionStorage.setItem("cuesL", phaseIL);
-                    sessionStorage.setItem("cuesR", phaseIR);
+                    document.cookie = "cuesL=" + JSON.stringify(phaseIL) + "; ";
+                    document.cookie = "cuesR=" + JSON.stringify(phaseIR) + "; ";
                     handleTimeout = setTimeout(showFixation, tRW);
                     Trial.push(count);
-                    sessionStorage.setItem("Count", count);
-                    sessionStorage.setItem("Trial", Trial);
+                    document.cookie = "Count=" + count + "; ";
+                    document.cookie = "Trial=" + JSON.stringify(Trial) + "; ";
                     count++;
                 } else { // end run
                     $("#indicator").hide();
@@ -134,9 +134,9 @@
                     responseTime.push(15000);
                     actionList.push("TimeOut");
                     decisionList.push("TimeOut");
-                    sessionStorage.setItem("action1", actionList);
-                    sessionStorage.setItem("decision1", decisionList);
-                    sessionStorage.setItem("responseT1", responseTime);                          
+                    document.cookie = "action1=" + JSON.stringify(actionList) + "; ";
+                    document.cookie = "decision1=" + JSON.stringify(decisionList) + "; ";
+                    document.cookie = "responseT1=" + JSON.stringify(responseTime) + "; ";                          
                 }
                 flagResponse = 1;
                 setTimeout(showFixation1, 1000);
@@ -177,59 +177,54 @@
                         showFeedback(3); // if RT < 150 ms, too fast
                         actionList.push("TooFast");
                         decisionList.push("TooFast");
-                        sessionStorage.setItem("action1", actionList);
-                        sessionStorage.setItem("decision1", decisionList);
+                        document.cookie = "action1=" + JSON.stringify(actionList) + "; ";
+                        document.cookie = "decision1=" + JSON.stringify(decisionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT1", responseTime);
+                        document.cookie = "responseT1=" + JSON.stringify(responseTime) + "; ";
                     } else if ((correctResp[countTrial] == 1 && ans == 'x') || (correctResp[countTrial] == 2 && ans == 'm')) {
                         nResponse++;
                         nPoints = nPoints + 1;
                         showFeedback(1); // correct response
                         actionList.push("Correct");
-                        sessionStorage.setItem("action1", actionList);
+                        document.cookie = "action1=" + JSON.stringify(actionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT1", responseTime);
+                        document.cookie = "responseT1=" + JSON.stringify(responseTime) + "; ";
                         if (ans == 'x') {
                             decisionList.push("1");
-                            sessionStorage.setItem("decision1", decisionList);
+                            document.cookie = "decision1=" + JSON.stringify(decisionList) + "; ";
                         } else {
                             decisionList.push("0");
-                            sessionStorage.setItem("decision1", decisionList);
+                            document.cookie = "decision1=" + JSON.stringify(decisionList) + "; ";
                         }
                     } else if ((correctResp[countTrial] == 2 && ans == 'x') || (correctResp[countTrial] == 1 && ans == 'm')) {
                         nResponse++;
                         showFeedback(2); // incorrect response
                         actionList.push("Incorrect");
-                        sessionStorage.setItem("action1", actionList);
+                        document.cookie = "action1=" + JSON.stringify(actionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT1", responseTime);
+                        document.cookie = "responseT1=" + JSON.stringify(responseTime) + "; ";
                         if (ans == 'x') {
                             decisionList.push("1");
-                            sessionStorage.setItem("decision1", decisionList);
+                            document.cookie = "decision1=" + JSON.stringify(decisionList) + "; ";
                         } else {
                             decisionList.push("0");
-                            sessionStorage.setItem("decision1", decisionList);
+                            document.cookie = "decision1=" + JSON.stringify(decisionList) + "; ";
                         }
                     } else {
                         showFeedback(5);
                         actionList.push("WrongButton");
                         decisionList.push("WrongButton");
-                        sessionStorage.setItem("action1", actionList);
-                        sessionStorage.setItem("decision1", decisionList);
+                        document.cookie = "action1=" + JSON.stringify(actionList) + "; ";
+                        document.cookie = "decision1=" + JSON.stringify(decisionList) + "; ";
                         responseTime.push(d2.getTime() - d1.getTime());
-                        sessionStorage.setItem("responseT1", responseTime);
+                        document.cookie = "responseT1=" + JSON.stringify(responseTime) + "; ";
                     }
                 }
             });
 
             ///Function To stop backspace presses 8, and spaces 32
             $(function () {
-                /*
-                 * this swallows backspace keys on any non-input element.
-                 * stops backspace -> back
-                 */
                 var rx = /INPUT|SELECT|TEXTAREA/i;
-
                 $(document).bind("keydown keypress", function (e) {
                     if (e.which == 32 || e.which == 8) { // 8 == backspace
                         if (!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly) {
@@ -240,8 +235,6 @@
             });
 
         });
-
-       
 
         function backMainMenu() {
             window.location.href = "../../MainTask.html";
