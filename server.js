@@ -14,11 +14,15 @@ app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
-    res.sendFile('./Team.html', { root: __dirname });
+    res.sendFile('./MainTask.html', { root: __dirname });
 });
 
 app.get('/MainTask.html', (req, res) => {
     res.sendFile('./MainTask.html', { root: __dirname });
+});
+
+app.get('/Team.html', (req, res) => {
+    res.sendFile('./Team.html', { root: __dirname });
 });
 
 app.post('/task/Info.html', (req, res) => { 

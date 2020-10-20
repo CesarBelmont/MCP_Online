@@ -27,7 +27,7 @@
                 document.cookie = "userID=" + document.getElementById("userID").value + ";";             
             }
             var inputPass = document.getElementById("password").value;
-            var generatedPass = getCookie(pass);
+            var generatedPass = getCookie("pass");
             if (inputPass != generatedPass) {
                 alert("Wrong password, please try again");
                 return false;
@@ -51,7 +51,7 @@
     </script>
 </head>
 <body>
-    <form onsubmit="return validate()" action="../../MainTask.html">
+    <form onsubmit="return validate()" action="../../Team.html">
         <h1>Please fill the information below</h1>
         <fieldset>
             <legend>ID</legend>
